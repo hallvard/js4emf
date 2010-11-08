@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="javascriptSupportTest"
+    nsURI="http://www.eclipse.org/e4/emf/ecore/javascript/tests/javascriptSupportTest.ecore"
+    nsPrefix="jst">
+  <eClassifiers xsi:type="ecore:EClass" name="C1">
+    <eOperations name="getPrefixedName">
+      <eAnnotations source="http://www.eclipse.org/e4/emf/ecore/javascript/source">
+        <details key="js" value="return prefix + this.name;"/>
+      </eAnnotations>
+      <eParameters name="prefix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="createC2">
+      <eAnnotations source="http://www.eclipse.org/e4/emf/ecore/javascript/source">
+        <details key="js" value="var c2 = $javascriptSupportTest.$C2.create();&#xD;&#xA;c2.name = name;&#xD;&#xA;this.c2s.add(c2);&#xD;&#xA;return c2;"/>
+      </eAnnotations>
+      <eParameters name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="string1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="int1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="c2s" upperBound="-1" eType="#//C2"
+        containment="true" eOpposite="#//C2/c1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="C2">
+    <eOperations name="getSuffixedName">
+      <eAnnotations source="http://www.eclipse.org/e4/emf/ecore/javascript/source">
+        <details key="js" value="return this.name + suffix;&#xD;&#xA;"/>
+      </eAnnotations>
+      <eParameters name="suffix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="string1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="int1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="c1" eType="#//C1" eOpposite="#//C1/c2s"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="C3" eSuperTypes="#//C2">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>

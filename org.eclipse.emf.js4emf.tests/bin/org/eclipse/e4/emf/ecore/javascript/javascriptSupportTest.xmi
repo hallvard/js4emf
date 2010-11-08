@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="ASCII"?>
+<jst:C1 xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jst="http://www.eclipse.org/e4/emf/ecore/javascript/tests/javascriptSupportTest.ecore"
+	xsi:schemaLocation="http://www.eclipse.org/e4/emf/ecore/javascript/tests/javascriptSupportTest.ecore javascriptSupportTest.ecore"
+	name="c11" string1="42" int1="42">
+  <c2s name="c2" string1="31" int1="31"/>
+  <c2s xsi:type="jst:C3" name="c31" string1="22" int1="22"/>
+  <c2s xsi:type="jst:C3" name="c32" string1="22" int1="22"/>
+</jst:C1>
