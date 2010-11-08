@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: EMF Javascript Tests Plug-in (Incubation)
-Bundle-SymbolicName: org.eclipse.e4.emf.javascript.tests
+Bundle-SymbolicName: org.eclipse.emf.js4emf.tests
 Bundle-Version: 0.9.0.qualifier
 Bundle-Activator: org.eclipse.e4.emf.ecore.javascript.Activator
 Require-Bundle: org.mozilla.javascript;bundle-version="1.6.6",
