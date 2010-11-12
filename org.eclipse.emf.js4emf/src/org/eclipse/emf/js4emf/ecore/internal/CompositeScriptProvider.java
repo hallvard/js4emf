@@ -6,7 +6,11 @@ import java.util.List;
 import org.eclipse.emf.js4emf.ecore.ScriptProvider;
 import org.mozilla.javascript.Scriptable;
 
-public class CompositeScriptProvider implements ScriptProvider {
+public class CompositeScriptProvider extends JavascriptSupportHelper implements ScriptProvider {
+
+	public CompositeScriptProvider(JavascriptSupportImpl javascriptSupport) {
+		super(javascriptSupport);
+	}
 
 	private List<ScriptProvider> scriptProviders = new ArrayList<ScriptProvider>();
 
@@ -14,9 +18,9 @@ public class CompositeScriptProvider implements ScriptProvider {
 		scriptProviders.add(scriptProvider);
 	}
 
-	public boolean loadScript(Object key, Scriptable scope, JavascriptSupport javascriptSupport) {
+	public boolean loadScript(Object key, Scriptable scope) {
 		for (ScriptProvider scriptProvider : scriptProviders) {
-			if (scriptProvider.loadScript(key, scope, javascriptSupport)) {
+			if (scriptProvider.loadScript(key, scope)) {
 				return true;
 			}
 		}

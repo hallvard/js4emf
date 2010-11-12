@@ -10,15 +10,15 @@
  ******************************************************************************/
 package org.eclipse.emf.js4emf.ecore.internal.functions;
 
-import org.eclipse.emf.js4emf.ecore.internal.JavascriptSupport;
+import org.eclipse.emf.js4emf.ecore.internal.JavascriptSupportImpl;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 public class LoadEPackageFunction extends AbstractFunction {
 
-	private JavascriptSupport javascriptSupport;
+	private JavascriptSupportImpl javascriptSupport;
 	
-	public LoadEPackageFunction(JavascriptSupport javascriptSupport) {
+	public LoadEPackageFunction(JavascriptSupportImpl javascriptSupport) {
 		super();
 		this.javascriptSupport = javascriptSupport;
 	}

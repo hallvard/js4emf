@@ -24,6 +24,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.URIConverter;
+import org.eclipse.emf.js4emf.ecore.ScriptClassLoader;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 

@@ -9,16 +9,15 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.js4emf.Util;
 
 public class EPackageHelper extends JavascriptSupportHelper {
 
-	public EPackageHelper(JavascriptSupport javascriptSupport) {
+	public EPackageHelper(JavascriptSupportImpl javascriptSupport) {
 		super(javascriptSupport);
 	}
 
 	private URIConverter getURIConverter() {
-		return this.javascriptSupport.getURIConverter();
+		return getJavascriptSupport().getURIConverter();
 	}
 
 	void addEPackageVariable(EClassifier prototypeClass) {
@@ -31,12 +30,17 @@ public class EPackageHelper extends JavascriptSupportHelper {
 		if (ePack == null) {
 			throw new IllegalArgumentException("No package with URI " + packageUri + (schemaUri != null ? " @ " + schemaUri : "") + " found");
 		}
+		registerEPackage(ePack, schemaUri);
+		return ePack;
+	}
+
+	public void registerEPackage(EPackage ePack, String schemaUri) {
 		if (schemaUri != null) {
 			registerSchemaUri(ePack, schemaUri);
 		}
 		addEPackageVariable(ePack);
-		return ePack;
 	}
+
 	private void registerSchemaUri(EPackage ePack, String schemaUriString) {
 		URI packageUri = URI.createURI(ePack.getNsURI());
 		URI schemaUri = getURIConverter().normalize(schemaUriString != null ? URI.createURI(schemaUriString) : packageUri);
@@ -68,15 +72,10 @@ public class EPackageHelper extends JavascriptSupportHelper {
 		Resource packageResource = packagesResourceSet.getResource(schemaUri, true);
 		ePack = getResourcePackage(packageResource, packageUriString);
 		if (ePack != null) {
-			registerPackage(ePack, schemaUriString);
+			ePackageRegistry.put(ePack.getNsURI(), ePack);
+			registerSchemaUri(ePack, schemaUriString);
 		}
 		return ePack;
-	}
-
-	public void registerPackage(EPackage ePack, String schemaUri) {
-		Registry ePackageRegistry = EPackage.Registry.INSTANCE;
-		ePackageRegistry.put(ePack.getNsURI(), ePack);
-		registerSchemaUri(ePack, schemaUri);
 	}
 
 	private EPackage getResourcePackage(Resource packageResource, String packageUri) {
@@ -93,12 +92,12 @@ public class EPackageHelper extends JavascriptSupportHelper {
 	}
 	
 	private void addEPackageVariable(EPackage ePack) {
-		String packVariableName = this.javascriptSupport.getNameSupport().getNamePropertyName(ePack);
-		if (packVariableName != null && this.javascriptSupport.getVariable(null, packVariableName) == null) {
+		String packVariableName = getJavascriptSupport().getNameSupport().getNamePropertyName(ePack);
+		if (packVariableName != null && getJavascriptSupport().getVariable(null, packVariableName) == null) {
 			// indicate loading state to prevent recursive call
-			this.javascriptSupport.setVariable(null, packVariableName, ePack.getNsURI());
+			getJavascriptSupport().setVariable(null, packVariableName, ePack.getNsURI());
 			// start loading
-			this.javascriptSupport.setVariable(null, packVariableName, ePack);
+			getJavascriptSupport().setVariable(null, packVariableName, ePack);
 		}
 	}
 }

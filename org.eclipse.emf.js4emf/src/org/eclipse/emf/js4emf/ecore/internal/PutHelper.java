@@ -11,7 +11,7 @@ import org.mozilla.javascript.NativeArray;
 
 public class PutHelper extends JavascriptSupportHelper {
 
-	public PutHelper(JavascriptSupport javascriptSupport) {
+	public PutHelper(JavascriptSupportImpl javascriptSupport) {
 		super(javascriptSupport);
 	}
 
@@ -33,7 +33,7 @@ public class PutHelper extends JavascriptSupportHelper {
 	}
 
 	private void addToCollection(Collection<Object> col, Object value, Class<?> valueClass) {
-		Object unwrappedValue = this.javascriptSupport.unwrapTo(value, valueClass);
+		Object unwrappedValue = getJavascriptSupport().unwrapTo(value, valueClass);
 		checkValueType(value, unwrappedValue, valueClass);
 		col.add(unwrappedValue);
 	}
@@ -65,12 +65,12 @@ public class PutHelper extends JavascriptSupportHelper {
 	void put(EObject eObject, EStructuralFeature feature, Object value) {
 		EClassifier type = feature.getEType();
 		if (feature.isMany()) {
-			Object unwrappedValue = (value != null ? this.javascriptSupport.unwrapTo(value, Object.class) : null);
+			Object unwrappedValue = (value != null ? getJavascriptSupport().unwrapTo(value, Object.class) : null);
 			EList list = (EList<?>) eObject.eGet(feature);
 			list.clear();
 			list.addAll(toCollection(unwrappedValue, type.getInstanceClass()));
 		} else {
-			Object unwrappedValue = (value != null ? this.javascriptSupport.unwrapTo(value, type.getInstanceClass()) : null);
+			Object unwrappedValue = (value != null ? getJavascriptSupport().unwrapTo(value, type.getInstanceClass()) : null);
 			if (checkValueType(value, unwrappedValue, type.getInstanceClass())) {
 				eObject.eSet(feature, unwrappedValue);
 			}

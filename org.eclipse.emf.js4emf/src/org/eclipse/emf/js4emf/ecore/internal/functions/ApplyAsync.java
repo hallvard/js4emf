@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.eclipse.emf.js4emf.ecore.internal.functions;
 
-import org.eclipse.emf.js4emf.ecore.internal.AsyncSupport;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;

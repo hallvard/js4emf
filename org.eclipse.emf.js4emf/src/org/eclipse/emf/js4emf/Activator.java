@@ -24,9 +24,10 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.js4emf.ecore.FeatureValueProvider;
 import org.eclipse.emf.js4emf.ecore.internal.ESuperTypesIterator;
+import org.eclipse.emf.js4emf.ecore.internal.Util;
 import org.eclipse.emf.js4emf.ecore.internal.featurevalueprovider.FeatureMatcherFeatureValueProvider;
-import org.eclipse.emf.js4emf.ecore.internal.featurevalueprovider.FeatureValueProvider;
 import org.eclipse.emf.js4emf.ecore.internal.featurevalueprovider.NameAnnotationFeatureMatcher;
 import org.osgi.framework.BundleContext;
 

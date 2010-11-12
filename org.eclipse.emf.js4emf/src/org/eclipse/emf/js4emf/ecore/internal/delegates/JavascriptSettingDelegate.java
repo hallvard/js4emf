@@ -2,11 +2,12 @@ package org.eclipse.emf.js4emf.ecore.internal.delegates;
 
 import java.lang.reflect.InvocationTargetException;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.EStructuralFeature.Internal.SettingDelegate;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.BasicSettingDelegate;
-import org.eclipse.emf.js4emf.ecore.internal.JavascriptSupport;
+import org.eclipse.emf.js4emf.ecore.internal.JavascriptSupportImpl;
 
 public class JavascriptSettingDelegate extends BasicSettingDelegate.Stateless implements SettingDelegate {
 
@@ -17,13 +18,13 @@ public class JavascriptSettingDelegate extends BasicSettingDelegate.Stateless im
 		opName = "_get_" + eStructuralFeature.getName();
 	}
 
-	private JavascriptSupport getJavascriptSupport() {
-		return JavascriptDelegateFactory.getJavascriptSupportFactory().getJavascriptSupport();
+	private JavascriptSupportImpl getJavascriptSupport(EObject owner) {
+		return JavascriptDelegateFactory.getJavascriptSupport(owner);
 	}
 
 	protected Object get(InternalEObject owner, boolean resolve, boolean coreType) {
 		try {
-			return JavascriptInvocationDelegate.dynamicInvoke(eStructuralFeature.getEContainingClass(), eStructuralFeature, null, opName, null, owner, null, getJavascriptSupport());
+			return JavascriptInvocationDelegate.dynamicInvoke(eStructuralFeature.getEContainingClass(), eStructuralFeature, null, opName, null, owner, null, getJavascriptSupport(owner));
 		} catch (InvocationTargetException e) {
 			throw new RuntimeException("Couldn't get value of " + eStructuralFeature + " feature using " + opName, e);
 		}
@@ -32,5 +33,4 @@ public class JavascriptSettingDelegate extends BasicSettingDelegate.Stateless im
 	protected boolean isSet(InternalEObject owner) {
 		return false;
 	}
-
 }

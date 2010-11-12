@@ -15,18 +15,18 @@ import java.util.List;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.js4emf.ecore.IJsObject;
 import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
 
 @SuppressWarnings("serial")
 public abstract class JsWrapper extends NativeJavaObject implements Adapter, IJsObject {
 
-	protected final JavascriptSupport javascriptSupport;
+	protected final JavascriptSupportImpl javascriptSupport;
 
-	JsWrapper(JavascriptSupport javascriptSupport, Scriptable scope, Object object, Class<?> staticType) {
+	JsWrapper(JavascriptSupportImpl javascriptSupport, Scriptable scope, Object object, Class<?> staticType) {
 		super(scope, object, staticType);
 		this.javascriptSupport = javascriptSupport;
 	}
@@ -43,12 +43,6 @@ public abstract class JsWrapper extends NativeJavaObject implements Adapter, IJs
 	protected void addIndexIds(int n, List<Object> l) {
 		for (int i = 0; i < n; i++) {
 			l.add(i);
-		}
-	}
-
-	protected void addParentId(EObject eObject, List<Object> result) {
-		if (eObject.eContainingFeature() != null) {
-			result.add(NameHelper.NAME_PREFIX);
 		}
 	}
 
@@ -72,15 +66,15 @@ public abstract class JsWrapper extends NativeJavaObject implements Adapter, IJs
 		}
 	}
 
-	static boolean has(List<?> list, int index, Scriptable start, JavascriptSupport javascriptSupport) {
+	static boolean has(List<?> list, int index, Scriptable start, JavascriptSupportImpl javascriptSupport) {
 		return list.size() > index;
 	}
 
-	static Object get(List<?> list, int index, Scriptable start, JavascriptSupport javascriptSupport) {
+	static Object get(List<?> list, int index, Scriptable start, JavascriptSupportImpl javascriptSupport) {
 		return javascriptSupport.wrap(list.get(index));
 	}
 
-	static void put(List list, int index, Scriptable start, Object value, JavascriptSupport javascriptSupport) {
+	static void put(List list, int index, Scriptable start, Object value, JavascriptSupportImpl javascriptSupport) {
 		value = javascriptSupport.unwrap(value);
 		list.set(index, value);
 	}
@@ -104,11 +98,17 @@ public abstract class JsWrapper extends NativeJavaObject implements Adapter, IJs
 	// from IJsObject
 
 	public Object getProperty(String name) {
-		return javascriptSupport.getProperty((EObject) javaObject, name);
+		return javascriptSupport.unwrap(ScriptableObject.getProperty(this, name));
+	}
+	public Object getElement(int i) {
+		return javascriptSupport.unwrap(ScriptableObject.getProperty(this, i));
 	}
 
 	public void setProperty(String name, Object value) {
-		javascriptSupport.setProperty((EObject) javaObject, name, value);
+		ScriptableObject.putProperty(this, name, value);
+	}
+	public void setElement(int i, Object value) {
+		ScriptableObject.putProperty(this, i, value);
 	}
 
 	public Object callMethod(String methodName, Object args) {

@@ -6,7 +6,11 @@ import java.util.List;
 import org.eclipse.emf.js4emf.ecore.PrototypeProvider;
 import org.mozilla.javascript.Scriptable;
 
-public class CompositePrototypeProvider implements PrototypeProvider {
+public class CompositePrototypeProvider extends JavascriptSupportHelper implements PrototypeProvider {
+
+	public CompositePrototypeProvider(JavascriptSupportImpl javascriptSupport) {
+		super(javascriptSupport);
+	}
 
 	private List<PrototypeProvider> prototypeProviders = new ArrayList<PrototypeProvider>();
 
@@ -14,9 +18,9 @@ public class CompositePrototypeProvider implements PrototypeProvider {
 		prototypeProviders.add(prototypeProvider);
 	}
 	
-	public Scriptable getPrototype(Object key, JavascriptSupport javascriptSupport) {
+	public Scriptable getPrototype(Object key) {
 		for (PrototypeProvider prototypeProvider : prototypeProviders) {
-			Scriptable prototype = prototypeProvider.getPrototype(key, javascriptSupport);
+			Scriptable prototype = prototypeProvider.getPrototype(key);
 			if (prototype != null) {
 				return prototype;
 			}

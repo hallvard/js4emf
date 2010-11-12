@@ -7,11 +7,15 @@ import org.eclipse.emf.js4emf.ecore.PrototypeProvider;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
-public class InstancePrototypeProvider implements PrototypeProvider {
+public class InstancePrototypeProvider extends JavascriptSupportHelper implements PrototypeProvider {
+
+	public InstancePrototypeProvider(JavascriptSupportImpl javascriptSupport) {
+		super(javascriptSupport);
+	}
 
 	private Map<Object, Scriptable> instancePrototypes = new IdentityHashMap<Object, Scriptable>();
 
-	public Scriptable getPrototype(final Object key, JavascriptSupport javascriptSupport) {
+	public Scriptable getPrototype(final Object key) {
 		Scriptable prototype = instancePrototypes.get(key);
 		if (prototype == null) {
 			prototype = new InstancePrototype() {

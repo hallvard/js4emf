@@ -12,13 +12,13 @@
       <view id="org.eclipse.e4.emf.javascript.ui.ScriptSourceView"
             name="EMF Javascript Source"
             category="org.eclipse.e4.emf.javascript.ui"
-            class="org.eclipse.e4.emf.javascript.ui.ScriptSourceView"
+            class="org.eclipse.emf.js4emf.ui.ScriptSourceView"
             >
       </view>
       <view id="org.eclipse.e4.emf.javascript.ui.ScriptScrapbookView"
             name="EMF Javascript Scrapbook"
             category="org.eclipse.e4.emf.javascript.ui"
-            class="org.eclipse.e4.emf.javascript.ui.ScriptScrapbookView"
+            class="org.eclipse.emf.js4emf.ui.ScriptScrapbookView"
             >
       </view>
 
@@ -41,7 +41,7 @@
    
    <extension point="org.eclipse.ui.handlers">
       <handler
-            class="org.eclipse.e4.emf.javascript.ui.EditJavascriptCommandHandler"
+            class="org.eclipse.emf.js4emf.ui.EditJavascriptCommandHandler"
             commandId="org.eclipse.e4.emf.javascript.ui.EditJavascriptCommand">
       </handler>
    </extension>
@@ -65,7 +65,7 @@
    
    <extension point="org.eclipse.ui.handlers">
       <handler
-            class="org.eclipse.e4.emf.javascript.ui.NudgeEObjectCommandHandler"
+            class="org.eclipse.emf.js4emf.ui.NudgeEObjectCommandHandler"
             commandId="org.eclipse.e4.emf.ui.NudgeEObjectCommand">
       </handler>
    </extension>
@@ -152,7 +152,7 @@
    		id="JavascriptNature"
 	   	name="Javascript Nature">
       	<runtime>
-         	<run class="org.eclipse.e4.emf.javascript.builders.JavascriptNature"/> 
+         	<run class="org.eclipse.emf.js4emf.builders.JavascriptNature"/> 
      	</runtime> 
     	<builder id="org.eclipse.e4.emf.javascript.ui.JavascriptBuilder"/> 
    </extension> 
@@ -161,7 +161,7 @@
    		id="JavascriptBuilder" 
    		name="Javascript Builder"> 
       	<builder hasNature="true"> 
-        	<run class="org.eclipse.e4.emf.javascript.builders.JavascriptBuilder"/>
+        	<run class="org.eclipse.emf.js4emf.builders.JavascriptBuilder"/>
       	</builder> 
    	</extension>
 
@@ -170,13 +170,13 @@
       <view id="org.eclipse.e4.emf.javascript.ui.EOperationInvokationView"
             name="EMF Invoke EOperation View"
             category="org.eclipse.e4.emf.javascript.ui"
-            class="org.eclipse.e4.emf.javascript.ui.EOperationInvocationView"
+            class="org.eclipse.emf.js4emf.ui.EOperationInvocationView"
             >
       </view>
       <view id="org.eclipse.e4.emf.javascript.ui.EOperationBodyView"
             name="EMF EOperation Body View"
             category="org.eclipse.e4.emf.javascript.ui"
-            class="org.eclipse.e4.emf.javascript.ui.EOperationBodyView"
+            class="org.eclipse.emf.js4emf.ui.EOperationBodyView"
             >
       </view>
 

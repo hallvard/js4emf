@@ -14,7 +14,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.edit.provider.IDisposable;
-import org.eclipse.emf.js4emf.ecore.internal.AsyncSupport;
 import org.eclipse.emf.js4emf.ecore.internal.EmfContext;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;

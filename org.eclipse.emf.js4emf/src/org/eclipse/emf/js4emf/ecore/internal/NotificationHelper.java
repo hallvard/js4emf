@@ -7,9 +7,9 @@ import org.mozilla.javascript.Function;
 
 public class NotificationHelper {
 
-	private JavascriptSupport javascriptSupport;
+	private JavascriptSupportImpl javascriptSupport;
 
-	public NotificationHelper(JavascriptSupport javascriptSupport) {
+	public NotificationHelper(JavascriptSupportImpl javascriptSupport) {
 		super();
 		this.javascriptSupport = javascriptSupport;
 	}
@@ -53,10 +53,10 @@ public class NotificationHelper {
 			String genericMethodName = getMethodName((EStructuralFeature)feature, -1);
 			Object[] methodArgs = new Object[]{notification};
 			Object funObject = null;
-			if ((funObject = this.javascriptSupport.getProperty(handler, specificMethodName)) instanceof Function) {
+			if ((funObject = this.javascriptSupport.getJsObject(handler).getProperty(specificMethodName)) instanceof Function) {
 //			System.out.println("Notifying " + javascriptSupport.toString(handler) + " with " + specificMethodName);
 				this.javascriptSupport.callMethod(handler, (Function) funObject, methodArgs, rethrowException);
-			} else if ((funObject = this.javascriptSupport.getProperty(handler, genericMethodName)) instanceof Function) {
+			} else if ((funObject = this.javascriptSupport.getJsObject(handler).getProperty(genericMethodName)) instanceof Function) {
 //			System.out.println("Notifying " + javascriptSupport.toString(handler) + " with " + genericMethodName);
 				this.javascriptSupport.callMethod(handler, (Function) funObject, methodArgs, rethrowException);
 			} else if ((funObject = this.javascriptSupport.getVariable(handler.eResource(), specificMethodName)) instanceof Function) {

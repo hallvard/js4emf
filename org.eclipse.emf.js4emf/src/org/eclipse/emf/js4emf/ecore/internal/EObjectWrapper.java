@@ -10,29 +10,23 @@
  ******************************************************************************/
 package org.eclipse.emf.js4emf.ecore.internal;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.mozilla.javascript.NativeArray;
 import org.mozilla.javascript.Scriptable;
 
 @SuppressWarnings("serial")
-class EObjectWrapper extends JsWrapper {
+class EObjectWrapper extends ContentsWrapper {
 
 	private static Logger log = Logger.getLogger(EObjectWrapper.class.getName());
 
-	public EObjectWrapper(JavascriptSupport javascriptSupport, Scriptable scope, EObject eObject, Class<?> staticType) {
+	public EObjectWrapper(JavascriptSupportImpl javascriptSupport, Scriptable scope, EObject eObject, Class<?> staticType) {
 		super(javascriptSupport, scope, eObject, staticType);
 	}
 
@@ -99,12 +93,9 @@ class EObjectWrapper extends JsWrapper {
 	public Object[] getIds() {
 		EObject eObject = getEObject();
 		EClass eClass = eObject.eClass();
-		List<Object> ids = (delegate2Super() ? new ArrayList<Object>() : new ArrayList<Object>(Arrays.asList(super.getIds())));
-		ids.addAll(Arrays.asList(getPrototype().getIds()));
+		List<Object> ids = getIds(delegate2Super(), true);
 		ids.addAll(eClass.getEAllStructuralFeatures());
-		addParentId(eObject, ids);
-		this.javascriptSupport.getNameSupport().addNameIds(eObject.eContents(), ids);
-		addIndexIds(eObject.eContents().size(), ids);
+		this.javascriptSupport.getNameSupport().addNameIds(eObject.eContainer(), eObject.eContents(), ids);
 		return ids.toArray();
 	}
 

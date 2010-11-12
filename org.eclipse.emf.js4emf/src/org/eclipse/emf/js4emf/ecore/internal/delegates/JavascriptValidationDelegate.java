@@ -10,12 +10,12 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EValidator.ValidationDelegate;
-import org.eclipse.emf.js4emf.ecore.internal.JavascriptSupport;
+import org.eclipse.emf.js4emf.ecore.internal.JavascriptSupportImpl;
 
 public class JavascriptValidationDelegate implements ValidationDelegate {
 
-	private JavascriptSupport getJavascriptSupport() {
-		return JavascriptDelegateFactory.getJavascriptSupportFactory().getJavascriptSupport();
+	private JavascriptSupportImpl getJavascriptSupport(EObject eObject) {
+		return JavascriptDelegateFactory.getJavascriptSupport(eObject);
 	}
 
 	protected boolean booleanValue(Object value) {
@@ -43,7 +43,7 @@ EOperation : ?
 	// invariant, defined by means of an annotated EOperation
 	public boolean validate(EClass eClass, EObject eObject, Map<Object, Object> context, EOperation invariant, String expression) {
 		try {
-			Object result = JavascriptInvocationDelegate.dynamicInvoke(eClass, invariant.getName(), invariant.getEParameters().iterator(), expression, eObject, null, getJavascriptSupport());
+			Object result = JavascriptInvocationDelegate.dynamicInvoke(eClass, invariant.getName(), invariant.getEParameters().iterator(), expression, eObject, null, getJavascriptSupport(eObject));
 			return booleanValue(result);
 		} catch (InvocationTargetException e) {
 			throw new RuntimeException("Couldn't validate invariant " + invariant.getName(), e);
@@ -53,7 +53,7 @@ EOperation : ?
 	// constraint, defined by means of annotation on eClass
 	public boolean validate(EClass eClass, EObject eObject, Map<Object, Object> context, String constraint, String expression) {
 		try {
-			Object result = JavascriptInvocationDelegate.dynamicInvoke(eClass, eClass, constraint, "_check_" + constraint, null, eObject, null, getJavascriptSupport());
+			Object result = JavascriptInvocationDelegate.dynamicInvoke(eClass, eClass, constraint, "_check_" + constraint, null, eObject, null, getJavascriptSupport(eObject));
 			return booleanValue(result);
 		} catch (InvocationTargetException e) {
 			throw new RuntimeException("Couldn't validate invariant " + constraint, e);
@@ -64,7 +64,7 @@ EOperation : ?
 	public boolean validate(EDataType eDataType, Object value, Map<Object, Object> context, String constraint, String expression) {
 		List<?> params = Collections.singletonList(eDataType.getName());
 		try {
-			Object result = JavascriptInvocationDelegate.dynamicInvoke(eDataType, "_check_" + constraint, params.iterator(), expression, Collections.singletonList(value), getJavascriptSupport());
+			Object result = JavascriptInvocationDelegate.dynamicInvoke(eDataType, "_check_" + constraint, params.iterator(), expression, Collections.singletonList(value), getJavascriptSupport(eDataType));
 			return booleanValue(result);		
 		} catch (InvocationTargetException e) {
 			throw new RuntimeException("Couldn't validate invariant " + constraint, e);

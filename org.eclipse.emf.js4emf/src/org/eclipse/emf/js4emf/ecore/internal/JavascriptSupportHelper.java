@@ -2,9 +2,13 @@ package org.eclipse.emf.js4emf.ecore.internal;
 
 public abstract class JavascriptSupportHelper {
 
-	protected final JavascriptSupport javascriptSupport;
+	private final JavascriptSupportImpl javascriptSupport;
 
-	public JavascriptSupportHelper(JavascriptSupport javascriptSupport) {
+	protected JavascriptSupportImpl getJavascriptSupport() {
+		return javascriptSupport;
+	}
+
+	public JavascriptSupportHelper(JavascriptSupportImpl javascriptSupport) {
 		this.javascriptSupport = javascriptSupport;
 	}
 }

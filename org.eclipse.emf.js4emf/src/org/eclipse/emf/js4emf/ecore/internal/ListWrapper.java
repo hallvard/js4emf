@@ -16,7 +16,7 @@ import org.mozilla.javascript.Scriptable;
 
 class ListWrapper extends ContentsWrapper {
 
-	public ListWrapper(JavascriptSupport javascriptSupport, Scriptable scope, List<?> list, Class<?> staticType) {
+	public ListWrapper(JavascriptSupportImpl javascriptSupport, Scriptable scope, List<?> list, Class<?> staticType) {
 		super(javascriptSupport, scope, list, staticType);
 	}
 

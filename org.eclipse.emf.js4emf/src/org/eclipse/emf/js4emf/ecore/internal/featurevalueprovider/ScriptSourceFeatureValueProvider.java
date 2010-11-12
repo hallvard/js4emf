@@ -8,7 +8,8 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.js4emf.ecore.internal.JavascriptSupport;
+import org.eclipse.emf.js4emf.ecore.FeatureValueProvider;
+import org.eclipse.emf.js4emf.ecore.internal.JavascriptSupportImpl;
 
 public class ScriptSourceFeatureValueProvider implements FeatureValueProvider<String> {
 
@@ -19,7 +20,7 @@ public class ScriptSourceFeatureValueProvider implements FeatureValueProvider<St
 		if (notifier instanceof EModelElement) {
 			EModelElement annotatedElement = (EModelElement) notifier;
 			if (annotatedElement instanceof EOperation || annotatedElement instanceof EStructuralFeature) {
-				return EcoreUtil.getAnnotation(annotatedElement, JavascriptSupport.SCRIPTING_SOURCE_URI, JavascriptSupport.JAVASCRIPT_EXTENSION);
+				return EcoreUtil.getAnnotation(annotatedElement, JavascriptSupportImpl.SCRIPTING_SOURCE_URI, JavascriptSupportImpl.JAVASCRIPT_EXTENSION);
 			}
 		}
 		return null;
@@ -29,11 +30,11 @@ public class ScriptSourceFeatureValueProvider implements FeatureValueProvider<St
 		if (notifier instanceof EModelElement) {
 			EModelElement annotatedElement = (EModelElement) notifier;
 			if (annotatedElement instanceof EOperation || annotatedElement instanceof EStructuralFeature) {
-				EcoreUtil.setAnnotation(annotatedElement, JavascriptSupport.SCRIPTING_SOURCE_URI, JavascriptSupport.JAVASCRIPT_EXTENSION, value);
+				EcoreUtil.setAnnotation(annotatedElement, JavascriptSupportImpl.SCRIPTING_SOURCE_URI, JavascriptSupportImpl.JAVASCRIPT_EXTENSION, value);
 				EPackage ePackage = ((EClass) annotatedElement.eContainer()).getEPackage();
-				EcoreUtil.setAnnotation(ePackage, EcorePackage.eNS_URI, "settingDelegates", JavascriptSupport.SCRIPTING_SOURCE_URI);
-				EcoreUtil.setAnnotation(ePackage, EcorePackage.eNS_URI, "invocationDelegates", JavascriptSupport.SCRIPTING_SOURCE_URI);
-				EcoreUtil.setAnnotation(ePackage, EcorePackage.eNS_URI, "validationDelegates", JavascriptSupport.SCRIPTING_SOURCE_URI);
+				EcoreUtil.setAnnotation(ePackage, EcorePackage.eNS_URI, "settingDelegates", JavascriptSupportImpl.SCRIPTING_SOURCE_URI);
+				EcoreUtil.setAnnotation(ePackage, EcorePackage.eNS_URI, "invocationDelegates", JavascriptSupportImpl.SCRIPTING_SOURCE_URI);
+				EcoreUtil.setAnnotation(ePackage, EcorePackage.eNS_URI, "validationDelegates", JavascriptSupportImpl.SCRIPTING_SOURCE_URI);
 			}
 		}
 	}

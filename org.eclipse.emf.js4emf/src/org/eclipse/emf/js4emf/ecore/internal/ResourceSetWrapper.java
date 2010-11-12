@@ -17,7 +17,7 @@ import org.mozilla.javascript.Scriptable;
 
 class ResourceSetWrapper extends ContentsWrapper {
 
-	protected ResourceSetWrapper(JavascriptSupport javascriptSupport, Scriptable scope, ResourceSet resSet, Class<?> staticType) {
+	protected ResourceSetWrapper(JavascriptSupportImpl javascriptSupport, Scriptable scope, ResourceSet resSet, Class<?> staticType) {
 		super(javascriptSupport, scope, resSet, staticType);
 	}
 

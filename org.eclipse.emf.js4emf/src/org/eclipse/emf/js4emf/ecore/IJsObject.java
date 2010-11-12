@@ -9,18 +9,30 @@ package org.eclipse.emf.js4emf.ecore;
 public interface IJsObject {
 
 	/**
-	 * Get the property of the underlying object with the speficied name
+	 * Get the property of the underlying object with the specified name
 	 * @param name the property name
 	 * @return the value of the specified property
 	 */
 	public Object getProperty(String name);
+	/**
+	 * Get the element of the underlying object at the specified index
+	 * @param i the index
+	 * @return the element at the specified index
+	 */
+	public Object getElement(int i);
 	
 	/**
-	 * Set the property of the underlying object with the speficied name, to the specified value
+	 * Set the property of the underlying object with the specified name, to the specified value
 	 * @param name the property name
 	 * @param value the new value
 	 */
 	public void setProperty(String name, Object value);
+	/**
+	 * Set the element of the underlying object at the specified index, to the specified value
+	 * @param i the index
+	 * @param value the new value
+	 */
+	public void setElement(int i, Object value);
 
 	/**
 	 * Calls the method with the specified name, with the specified arguments

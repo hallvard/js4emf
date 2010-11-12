@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.emf.js4emf.swt;
 
-import org.eclipse.emf.js4emf.ecore.internal.AsyncSupport;
+import org.eclipse.emf.js4emf.ecore.internal.functions.AsyncSupport;
 import org.eclipse.swt.widgets.Display;
 
 public class DisplayAsyncSupport implements AsyncSupport {

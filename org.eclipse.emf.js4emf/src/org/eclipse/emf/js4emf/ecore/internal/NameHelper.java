@@ -23,7 +23,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 
 public class NameHelper extends JavascriptSupportHelper {
 
-	public NameHelper(JavascriptSupport javascriptSupport) {
+	public NameHelper(JavascriptSupportImpl javascriptSupport) {
 		super(javascriptSupport);
 	}
 
@@ -53,7 +53,7 @@ public class NameHelper extends JavascriptSupportHelper {
 	}
 
 	public final static String NAME_FEATURE_NAME = "name";
-	public final static String NAME_FEATURE_URI = JavascriptSupport.JS4EMF_URI_PREFIX + "/nameFeature";
+	public final static String NAME_FEATURE_URI = "http://www.eclipse.org/emf/js4emf/nameFeature";
 
 	private Map<EClass, EStructuralFeature> nameFeatures = new HashMap<EClass, EStructuralFeature>();
 
@@ -218,7 +218,10 @@ public class NameHelper extends JavascriptSupportHelper {
 	//		}
 	//	}
 	
-	public void addNameIds(List<EObject> contents, List<Object> result) {
+	public void addNameIds(Object parent, List<EObject> contents, List<Object> result) {
+		if (parent != null) {
+			result.add(NameHelper.NAME_PREFIX);
+		}
 		for (EObject content: contents) {
 			String eName = getName(content);
 			if (eName != null) {

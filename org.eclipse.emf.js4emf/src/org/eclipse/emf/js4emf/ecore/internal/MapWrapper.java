@@ -21,10 +21,10 @@ import org.mozilla.javascript.Scriptable;
 
 class MapWrapper extends JsWrapper {
 
-	public MapWrapper(JavascriptSupport javascriptSupport, Scriptable scope, Map<?, ?> map, Class<?> staticType) {
+	public MapWrapper(JavascriptSupportImpl javascriptSupport, Scriptable scope, Map<?, ?> map, Class<?> staticType) {
 		super(javascriptSupport, scope, map, staticType);
 	}
-	public MapWrapper(JavascriptSupport javascriptSupport, Scriptable scope, EMap<?, ?> map, Class<?> staticType) {
+	public MapWrapper(JavascriptSupportImpl javascriptSupport, Scriptable scope, EMap<?, ?> map, Class<?> staticType) {
 		super(javascriptSupport, scope, map, staticType);
 	}
 

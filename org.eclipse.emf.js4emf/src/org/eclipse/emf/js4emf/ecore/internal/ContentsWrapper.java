@@ -19,7 +19,7 @@ import org.mozilla.javascript.Scriptable;
 @SuppressWarnings("serial")
 abstract class ContentsWrapper extends JsWrapper {
 
-	public ContentsWrapper(JavascriptSupport javascriptSupport, Scriptable scope, Object javaObject, Class<?> staticType) {
+	public ContentsWrapper(JavascriptSupportImpl javascriptSupport, Scriptable scope, Object javaObject, Class<?> staticType) {
 		super(javascriptSupport, scope, javaObject, staticType);
 	}
 

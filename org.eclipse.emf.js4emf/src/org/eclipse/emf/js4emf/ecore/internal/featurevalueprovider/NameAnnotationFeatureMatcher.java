@@ -2,7 +2,7 @@ package org.eclipse.emf.js4emf.ecore.internal.featurevalueprovider;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.js4emf.ecore.internal.featurevalueprovider.AbstractFeatureValueProvider.FeatureMatcher;
+import org.eclipse.emf.js4emf.ecore.AbstractFeatureValueProvider.FeatureMatcher;
 
 public class NameAnnotationFeatureMatcher implements FeatureMatcher {
 

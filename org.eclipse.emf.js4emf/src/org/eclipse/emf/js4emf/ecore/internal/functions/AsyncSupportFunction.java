@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.eclipse.emf.js4emf.ecore.internal.functions;
 
-import org.eclipse.emf.js4emf.ecore.internal.AsyncSupport;
 
 public abstract class AsyncSupportFunction extends AbstractFunction {
 
