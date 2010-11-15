@@ -20,6 +20,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.js4emf.ecore.IJsScope;
@@ -59,8 +60,12 @@ class ResourceScope extends NativeObject implements Adapter, IJsScope {
 		this.scopeName = uriString;
 	}
 
-	private Resource getResource() {
-		return resource;
+	@Override
+	public void setParentScope(Scriptable m) {
+		if (m instanceof ResourceScope && this.javascriptSupport != ((ResourceScope) m).javascriptSupport) {
+			System.out.println("Alarm!");
+		}
+		super.setParentScope(m);
 	}
 
 	static EObject has(Resource resource, String name, JavascriptSupportImpl javascriptSupport) {
@@ -68,6 +73,10 @@ class ResourceScope extends NativeObject implements Adapter, IJsScope {
 			for (EObject content: resource.getContents()) {
 				if (javascriptSupport.getNameSupport().hasName(content, name)) {
 					return content;
+				}
+				EPackage ePackage = content.eClass().getEPackage();
+				if (javascriptSupport.getNameSupport().hasName(ePackage, name)) {
+					return ePackage;
 				}
 			}
 		}
@@ -78,17 +87,6 @@ class ResourceScope extends NativeObject implements Adapter, IJsScope {
 		return has(resource, name, this.javascriptSupport) != null || super.has(name, start);
 	}
 
-	static Object get(Resource resource, String name, JavascriptSupportImpl javascriptSupport) {
-		if (resource != null) {
-			NameHelper nameSupport = javascriptSupport.getNameSupport();
-			for (EObject content: resource.getContents()) {
-				if (nameSupport.hasName(content, name)) {
-					return get(content, javascriptSupport);
-				}
-			}
-		}
-		return null;
-	}
 	static Object get(EObject content, JavascriptSupportImpl javascriptSupport) {
 		NameHelper nameSupport = javascriptSupport.getNameSupport();
 		EStructuralFeature feature = nameSupport.getNameFeature(content);
@@ -106,7 +104,7 @@ class ResourceScope extends NativeObject implements Adapter, IJsScope {
 
 	static void addNameIds(Resource resource, List<Object> ids, JavascriptSupportImpl javascriptSupport) {
 		if (resource != null) {
-			javascriptSupport.getNameSupport().addNameIds(resource.getResourceSet(), resource.getContents(), ids);
+			javascriptSupport.getNameSupport().addNameIds(resource.getResourceSet(), resource.getContents(), true, ids);
 		}
 	}
 
@@ -152,7 +150,8 @@ class ResourceScope extends NativeObject implements Adapter, IJsScope {
 	}
 	
 	public boolean isAdapterForType(Object type) {
-		return IJsScope.class.equals(type);
+		return type instanceof JavascriptSupportImpl.AdapterType &&
+			((JavascriptSupportImpl.AdapterType) type).isTypeFor(this.javascriptSupport, IJsScope.class);
 	}
 	
 	public void notifyChanged(Notification notification) {

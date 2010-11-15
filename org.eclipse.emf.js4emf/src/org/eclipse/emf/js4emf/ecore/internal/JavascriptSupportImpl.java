@@ -20,18 +20,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.emf.common.notify.Adapter;
-import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -93,25 +91,24 @@ public class JavascriptSupportImpl extends AdapterImpl implements JavascriptSupp
 	public final static String SCRIPT_SOURCE_FEATURE_NAME = "scriptSource";
 
 	private Context context;
-	final ScriptableObject rootScope;
+	Scriptable rootScope;
 
-	private JavascriptSupportImpl() {
+	public JavascriptSupportImpl(Notifier notifier) {
 		// force loading of EmfContextFactory class, to ensure it is set as
 		// global ContextFactory
 		this.context = EmfContextFactory.getEmfContextFactory().makeContext();
-//		Context context = EmfContext.enter();
+		//		Context context = EmfContext.enter();
 		// don't wrap String objects as JavaNativeObject, but use their JS equivalent
 		this.getWrapFactory().setJavaPrimitiveWrap(false);
 		context.setWrapFactory(this.getWrapFactory());
 		URI ecoreJsUri = URI.createURI(String.valueOf(getClass().getResource("Ecore.js")));
-		rootScope = createScope(ecoreJsUri.toString());
-		context.initStandardObjects(rootScope);
-		initStandardObjects(rootScope);
-	}
-
-	public JavascriptSupportImpl(Notifier notifier) {
-		this();
+		ScriptableObject scope = createScope(ecoreJsUri.toString());
+		this.rootScope = scope;
+		context.initStandardObjects(scope);
+		initStandardObjects(scope);
+		loadScript(ecoreJsUri, scope); 
 		setTarget(notifier);
+		rootScope = (Scriptable) wrap(notifier);
 	}
 
 	//
@@ -119,53 +116,53 @@ public class JavascriptSupportImpl extends AdapterImpl implements JavascriptSupp
 	public boolean isAdapterForType(Object type) {
 		return JavascriptSupport.class == type;
 	}
-	
-	public void setTarget(Notifier notifier) {
-		if (notifier instanceof Resource) {
-			registerEPackages(((Resource) notifier).getContents());
-		} else if (notifier instanceof ResourceSet) {
-			registerEPackages((ResourceSet) notifier);
-		} else if (notifier instanceof EObject) {
-			registerEPackages(((EObject) notifier).eContents());
-		} else {
-			throw new IllegalArgumentException("Target must be a Resource or ResourceSet, but was " + notifier);
-		}
-		super.setTarget(notifier);
-	}
-	
-	public void notifyChanged(Notification notification) {
-		boolean isAdd = notification.getEventType() == Notification.ADD || notification.getEventType() == Notification.ADD_MANY;
-		if (notification.getNotifier() instanceof Resource) {
-			int featureId = notification.getFeatureID(Resource.class);
-			if (featureId == Resource.RESOURCE__CONTENTS && isAdd) {
-				registerEPackages(((ResourceSet) notification.getNotifier()));
-			}
-		} else if (notification.getNotifier() instanceof ResourceSet) {
-			int featureId = notification.getFeatureID(ResourceSet.class);
-			if (isAdd && featureId == ResourceSet.RESOURCE_SET__RESOURCES) {
-				registerEPackages(((Resource) notification.getNotifier()).getContents());
-			}
-		} else if (notification.getNotifier() instanceof EObject) {
-			if (isAdd && notification.getFeature() instanceof EReference && ((EReference) notification.getFeature()).isContainment()) {
-				registerEPackages(((EObject) notification.getNotifier()).eContents());
-			}
-		}
-	}
 
-	private void registerEPackages(EList<EObject> contents) {
-		for (EObject eObject : contents) {
-			getEPackageHelper().registerEPackage(eObject.eClass().getEPackage(), null);
-		}
-	}
+//	public void setTarget(Notifier notifier) {
+//		if (notifier instanceof Resource) {
+//			registerEPackages(((Resource) notifier).getContents());
+//		} else if (notifier instanceof ResourceSet) {
+//			registerEPackages((ResourceSet) notifier);
+//		} else if (notifier instanceof EObject) {
+//			registerEPackages(((EObject) notifier).eContents());
+//		} else {
+//			throw new IllegalArgumentException("Target must be a Resource or ResourceSet, but was " + notifier);
+//		}
+//		super.setTarget(notifier);
+//	}
+//
+//	public void notifyChanged(Notification notification) {
+//		boolean isAdd = notification.getEventType() == Notification.ADD || notification.getEventType() == Notification.ADD_MANY;
+//		if (notification.getNotifier() instanceof Resource) {
+//			int featureId = notification.getFeatureID(Resource.class);
+//			if (featureId == Resource.RESOURCE__CONTENTS && isAdd) {
+//				registerEPackages(((ResourceSet) notification.getNotifier()));
+//			}
+//		} else if (notification.getNotifier() instanceof ResourceSet) {
+//			int featureId = notification.getFeatureID(ResourceSet.class);
+//			if (isAdd && featureId == ResourceSet.RESOURCE_SET__RESOURCES) {
+//				registerEPackages(((Resource) notification.getNotifier()).getContents());
+//			}
+//		} else if (notification.getNotifier() instanceof EObject) {
+//			if (isAdd && notification.getFeature() instanceof EReference && ((EReference) notification.getFeature()).isContainment()) {
+//				registerEPackages(((EObject) notification.getNotifier()).eContents());
+//			}
+//		}
+//	}
+//
+//	private void registerEPackages(EList<EObject> contents) {
+//		for (EObject eObject : contents) {
+//			//			getEPackageHelper().registerEPackage(eObject.eClass().getEPackage(), null);
+//		}
+//	}
+//
+//	private void registerEPackages(ResourceSet resourceSet) {
+//		for (Resource resource : resourceSet.getResources()) {
+//			registerEPackages(resource.getContents());
+//		}
+//	}
 
-	private void registerEPackages(ResourceSet resourceSet) {
-		for (Resource resource : resourceSet.getResources()) {
-			registerEPackages(resource.getContents());
-		}
-	}
-	
 	//
-	
+
 	private Context enterContext() {
 		Context context = Context.enter(this.context);
 		context.setWrapFactory(this.getWrapFactory());
@@ -180,10 +177,11 @@ public class JavascriptSupportImpl extends AdapterImpl implements JavascriptSupp
 		context.setApplicationClassLoader(classLoader);
 		exitContext();
 	}
-	
+
 	private void initStandardObjects(Scriptable scope) {
-		ScriptableObject.putProperty(scope, "out", System.out);
-		ScriptableObject.putProperty(scope, "err", System.err);
+		ScriptableObject.putProperty(scope, "sysout", createConstantFunction("sysout", wrap(System.out), null));
+		ScriptableObject.putProperty(scope, "syserr", createConstantFunction("syserr", wrap(System.err), null));
+		ScriptableObject.putProperty(scope, "ePackages", createConstantFunction("ePackages", wrap(EPackage.Registry.INSTANCE), null));
 		ScriptableObject.putProperty(scope, "loadEPackage", new LoadEPackageFunction(this));
 		ScriptableObject.putProperty(scope, "adaptTo", new AdaptTo());
 		ScriptableObject.putProperty(scope, "applyAsBinding", new BindingApply(null));
@@ -259,7 +257,7 @@ public class JavascriptSupportImpl extends AdapterImpl implements JavascriptSupp
 	}
 
 	//
-	
+
 	public Object callMethod(Object object, String methodName, Object args, boolean rethrowException) {
 		return call(object, methodName, args, object, rethrowException);
 	}	
@@ -306,7 +304,7 @@ public class JavascriptSupportImpl extends AdapterImpl implements JavascriptSupp
 		}
 		return unwrap(result);
 	}
-	
+
 	String toString(Object thisObject) {
 		String objectRef = "";
 		if (thisObject instanceof EObject) {
@@ -365,7 +363,7 @@ public class JavascriptSupportImpl extends AdapterImpl implements JavascriptSupp
 	NameHelper getNameSupport() {
 		return nameSupport;
 	}
-	
+
 	//
 
 	public Scriptable getScope(Object object) {
@@ -380,7 +378,7 @@ public class JavascriptSupportImpl extends AdapterImpl implements JavascriptSupp
 			res = (Resource) object;
 		}
 		if (res != null) {
-			return (ResourceScope) getAdapterFactory().adapt(res, IJsScope.class);
+			return (Scriptable) getJsScope(res);
 		}
 		return rootScope;
 	}
@@ -418,11 +416,13 @@ public class JavascriptSupportImpl extends AdapterImpl implements JavascriptSupp
 	}
 
 	private Scriptable getPrototype(PrototypeProvider prototypeProvider, Object object, Map<Object, Scriptable> prototypes, ScriptProvider scriptProvider) {
-		Scriptable prototype = prototypes.get(object);
+		Scriptable prototype = (prototypes != null ? prototypes.get(object) : null);
 		if (prototype == null && prototypeProvider != null) {
 			prototype = prototypeProvider.getPrototype(object);
 			if (prototype != null) {
-				prototypes.put(object, prototype);
+				if (prototypes != null) {
+					prototypes.put(object, prototype);
+				}
 				if (scriptProvider != null) {
 					loadScript(scriptProvider, object, prototype);
 				}
@@ -430,17 +430,17 @@ public class JavascriptSupportImpl extends AdapterImpl implements JavascriptSupp
 		}
 		return prototype;
 	}
-	
+
 	private PrototypeProvider
-		instancePrototypeProvider = new InstancePrototypeProvider(this),
-		classifierPrototypeProvider = new EClassifierPrototypeProvider(this);
+	instancePrototypeProvider = new InstancePrototypeProvider(this),
+	classifierPrototypeProvider = new EClassifierPrototypeProvider(this);
 	private Map<Object, Scriptable>
-		instancePrototypes = new IdentityHashMap<Object, Scriptable>(),
-		classifierPrototypes = new IdentityHashMap<Object, Scriptable>();
-	
+	instancePrototypes = new IdentityHashMap<Object, Scriptable>(),
+	classifierPrototypes = new IdentityHashMap<Object, Scriptable>();
+
 	private ScriptProvider
-		instanceScriptProvider = new InstanceScriptProvider(this),
-		classifierScriptProvider = new EClassifierScriptProvider(this);
+	instanceScriptProvider = new InstanceScriptProvider(this),
+	classifierScriptProvider = new EClassifierScriptProvider(this);
 
 	protected void setInstancePrototypeProvider(PrototypeProvider instancePrototypeProvider) {
 		this.instancePrototypeProvider = instancePrototypeProvider;
@@ -456,7 +456,7 @@ public class JavascriptSupportImpl extends AdapterImpl implements JavascriptSupp
 	public Scriptable getClassifierPrototype(Object classifier) {
 		return getPrototype(classifierPrototypeProvider, classifier, classifierPrototypes, classifierScriptProvider);
 	}
-	
+
 	private boolean loadScript(ScriptProvider scriptProvider, Object key, Scriptable scope) {
 		if (scriptProvider != null) {
 			if (scope == null) {
@@ -468,7 +468,7 @@ public class JavascriptSupportImpl extends AdapterImpl implements JavascriptSupp
 	}
 
 	private ScriptProvider uriScriptProvider = new UriScriptProvider(this);
-	
+
 	public boolean loadScript(URI uri, Scriptable scope) {
 		return loadScript(uriScriptProvider, uri, scope);
 	}
@@ -486,22 +486,22 @@ public class JavascriptSupportImpl extends AdapterImpl implements JavascriptSupp
 			prototype.setParentScope(scope);
 		}
 		wrapper.setPrototype(prototype);
-//		Object initFun = ScriptableObject.getProperty(wrapper, "init");
-//		if (initFun instanceof Function) {
-//			Context context = enterContext();
-//			try {
-//				Object[] initFunArgs = {};
-//				((Function)initFun).call(context, scope, wrapper, initFunArgs);
-//			} catch (RuntimeException e) {
-//				log.log(Level.SEVERE, "Exception when calling init() on " + wrappedObject + ": " + e, e);
-//			} finally {
-//				exitContext();
-//			}
-//		}
+		//		Object initFun = ScriptableObject.getProperty(wrapper, "init");
+		//		if (initFun instanceof Function) {
+		//			Context context = enterContext();
+		//			try {
+		//				Object[] initFunArgs = {};
+		//				((Function)initFun).call(context, scope, wrapper, initFunArgs);
+		//			} catch (RuntimeException e) {
+		//				log.log(Level.SEVERE, "Exception when calling init() on " + wrappedObject + ": " + e, e);
+		//			} finally {
+		//				exitContext();
+		//			}
+		//		}
 	}
 
 	private EPackageHelper ePackageSupport;
-	
+
 	public EPackageHelper getEPackageHelper() {
 		if (ePackageSupport == null) {
 			ePackageSupport = new EPackageHelper(this);
@@ -558,32 +558,57 @@ public class JavascriptSupportImpl extends AdapterImpl implements JavascriptSupp
 		}
 	}
 
-//	private Map<Object, Scriptable> wrappers = new IdentityHashMap<Object, Scriptable>();
+	//	private Map<Object, Scriptable> wrappers = new IdentityHashMap<Object, Scriptable>();
 
+	
+	class AdapterType {
+		public boolean isTypeFor(JavascriptSupport javascriptSupport, Class<?> c) {
+			return JavascriptSupportImpl.this == javascriptSupport;
+		}
+	}
+
+	private Object jsObjectAdapterType = new AdapterType() {
+		public boolean isTypeFor(JavascriptSupport javascriptSupport, Class<?> c) {
+			return super.isTypeFor(javascriptSupport, c) && c == IJsObject.class;
+		}
+	}, jsScopeAdapterType = new AdapterType() {
+		public boolean isTypeFor(JavascriptSupport javascriptSupport, Class<?> c) {
+			return super.isTypeFor(javascriptSupport, c) && c == IJsScope.class;
+		}
+	};
+	
 	private class JsWrapperFactory extends AdapterFactoryImpl {
 
 		private Context cx;
 		private Scriptable scope;
 		private Class<?> staticType;
-		
+
 		JsWrapperFactory setContext(Context cx, Scriptable scope, @SuppressWarnings("rawtypes") Class staticType) {
 			this.cx = cx;
 			this.scope = scope;
 			this.staticType = staticType;
 			return this;
 		}
-		
+
 		@Override
 		public boolean isFactoryForType(Object type) {
-			return IJsObject.class == type || IJsScope.class == type;
+			if (! (type instanceof AdapterType)) {
+				return false;
+			}
+			AdapterType adapterType = (AdapterType) type;
+			return adapterType.isTypeFor(JavascriptSupportImpl.this, IJsObject.class) || adapterType.isTypeFor(JavascriptSupportImpl.this, IJsScope.class);
 		}
 
 		// used for notifier targets, i.e. all EMF objects
 		@Override
 		protected Adapter createAdapter(Notifier target, Object type) {
-			if (type == IJsObject.class) {
+			if (! (type instanceof AdapterType)) {
+				return null;
+			}
+			AdapterType adapterType = (AdapterType) type;
+			if (adapterType.isTypeFor(JavascriptSupportImpl.this, IJsObject.class)) {
 				return createJsObject(cx, scope, target, staticType);
-			} else if (type == IJsScope.class && target instanceof Resource) {
+			} else if (adapterType.isTypeFor(JavascriptSupportImpl.this, IJsScope.class) && target instanceof Resource) {
 				Resource res = (Resource) target;
 				ResourceScope scope = new ResourceScope(JavascriptSupportImpl.this, res);
 				loadScript(res.getURI(), scope);
@@ -603,12 +628,12 @@ public class JavascriptSupportImpl extends AdapterImpl implements JavascriptSupp
 	};
 
 	private JsWrapperFactory adapterFactory = new JsWrapperFactory();
-	
+
 	private JsWrapperFactory getAdapterFactory() {
 		return adapterFactory;
 	}
-	
-	protected JsWrapper createJsObject(Context cx, Scriptable scope, Object javaObject, @SuppressWarnings("rawtypes") Class staticType) {
+
+	private JsWrapper createJsObject(Context cx, Scriptable scope, Object javaObject, @SuppressWarnings("rawtypes") Class staticType) {
 		JsWrapper wrapper = null;
 		EClassifier prototypeClass = null;
 		if (javaObject instanceof EObject) {
@@ -620,30 +645,30 @@ public class JavascriptSupportImpl extends AdapterImpl implements JavascriptSupp
 		} else if (javaObject instanceof ResourceSet) {
 			prototypeClass = EcorePackage.eINSTANCE.getEResourceSet();
 			wrapper = new ResourceSetWrapper(JavascriptSupportImpl.this, scope, (ResourceSet) javaObject, staticType);
-		} else if (javaObject instanceof List<?>) {
+		} else if (javaObject instanceof Map) {
+			prototypeClass = EcorePackage.eINSTANCE.getEMap();
+			wrapper = new MapWrapper(JavascriptSupportImpl.this, scope, (Map) javaObject, staticType);
+		} else if (javaObject instanceof EMap) {
+			prototypeClass = EcorePackage.eINSTANCE.getEMap();
+			wrapper = new MapWrapper(JavascriptSupportImpl.this, scope, (EMap) javaObject, staticType);
+		} else if (javaObject instanceof List) {
 			prototypeClass = EcorePackage.eINSTANCE.getEEList();
-			wrapper = new ListWrapper(JavascriptSupportImpl.this, scope, (List<?>) javaObject, staticType);
-		} else if (javaObject instanceof Map<?, ?>) {
-			prototypeClass = EcorePackage.eINSTANCE.getEMap();
-			wrapper = new MapWrapper(JavascriptSupportImpl.this, scope, (Map<?, ?>) javaObject, staticType);
-		} else if (javaObject instanceof EMap<?, ?>) {
-			prototypeClass = EcorePackage.eINSTANCE.getEMap();
-			wrapper = new MapWrapper(JavascriptSupportImpl.this, scope, (EMap<?, ?>) javaObject, staticType);
+			wrapper = new ListWrapper(JavascriptSupportImpl.this, scope, (List) javaObject, staticType);
 		}
 		if (wrapper != null) {
 			initWrapper(wrapper, scope, javaObject, prototypeClass);
 		}
 		return wrapper;
 	}
-	
+
 	private WrapFactory wrapFactory = new WrapFactory() {	
 		@Override
 		public Scriptable wrapAsJavaObject(Context cx, Scriptable scope, Object javaObject, @SuppressWarnings("rawtypes") Class staticType) {
-			IJsObject wrapper = (IJsObject) getAdapterFactory().setContext(cx, scope, staticType).adapt(javaObject, IJsObject.class);
+			IJsObject wrapper = (IJsObject) getAdapterFactory().setContext(cx, scope, staticType).adapt(javaObject, jsObjectAdapterType);
 			return (wrapper instanceof Scriptable ? (Scriptable) wrapper : super.wrapAsJavaObject(cx, scope, javaObject, staticType));
 		}
 	};
-	
+
 	private WrapFactory getWrapFactory() {
 		return wrapFactory;
 	}
@@ -653,16 +678,26 @@ public class JavascriptSupportImpl extends AdapterImpl implements JavascriptSupp
 	}
 
 	public IJsObject getJsObject(Object object) {
-		return (IJsObject) getAdapterFactory().adapt(object, IJsObject.class);
+		Context cx = enterContext();
+		try {
+			return (IJsObject) getAdapterFactory().setContext(cx, rootScope, null).adapt(object, jsObjectAdapterType);
+		} finally {
+			exitContext();
+		}
 	}
 	public IJsScope getJsScope(Object object) {
-		return (IJsScope) getAdapterFactory().adapt(object, IJsScope.class);
+		Context cx = enterContext();
+		try {
+			return (IJsScope) getAdapterFactory().setContext(cx, rootScope, null).adapt(object, jsScopeAdapterType);
+		} finally {
+			exitContext();
+		}
 	}
-	
+
 	//
-	
+
 	private PutHelper putHelper;
-	
+
 	PutHelper getPutHelper() {
 		if (putHelper == null) {
 			putHelper = new PutHelper(this);
@@ -671,18 +706,18 @@ public class JavascriptSupportImpl extends AdapterImpl implements JavascriptSupp
 	}
 
 	// notification support
-	
+
 	private NotificationHelper notificationHelper;
-	
+
 	NotificationHelper getNotificationHelper() {
 		if (notificationHelper == null) {
 			notificationHelper = new NotificationHelper(this);
 		}
 		return notificationHelper; 
 	}
-	
+
 	//
-	
+
 	public FeatureValueProvider<String> getScriptSourceFeatureValueProvider(EObject eObject) {
 		return InstanceScriptProvider.getScriptSourceFeatureValueProvider(eObject);
 	}

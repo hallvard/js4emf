@@ -2,8 +2,7 @@
 <ecore:EPackage xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ecoreJavascriptTest"
-    nsURI="http://www.eclipse.org/e4/emf/ecore/javascript/tests/ecoreJavascriptTest.ecore"
-    nsPrefix="ejt">
+    nsURI="http://www.eclipse.org/emf/js4emf/tests/ecoreJavascriptTest.ecore" nsPrefix="ejt">
   <eClassifiers xsi:type="ecore:EClass" name="C1">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         iD="true"/>

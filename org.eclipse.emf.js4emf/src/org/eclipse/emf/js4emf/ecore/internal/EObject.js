@@ -31,9 +31,9 @@ function isA(eClass) {
     return eClass.isInstance(this);
 }
 
-//function copy() {
-//	return Packages.org.eclipse.emf.ecore.util.EcoreUtil.copy(this);
-//}
+function copy() {
+	return Packages.org.eclipse.emf.ecore.util.EcoreUtil.copy(this);
+}
 
 function findContainer(predicate) {
 	var container = this._();

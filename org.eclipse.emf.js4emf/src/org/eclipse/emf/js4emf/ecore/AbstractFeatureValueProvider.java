@@ -10,7 +10,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 
 public abstract class AbstractFeatureValueProvider<T> implements FeatureValueProvider<T> {
 
-	protected EObject getEObject(Notifier notifier) {
+	public EObject getEObject(Notifier notifier) {
 		return (notifier instanceof EObject ? (EObject)notifier : null);
 	}
 

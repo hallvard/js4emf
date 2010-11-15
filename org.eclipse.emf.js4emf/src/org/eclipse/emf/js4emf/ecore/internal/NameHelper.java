@@ -218,20 +218,31 @@ public class NameHelper extends JavascriptSupportHelper {
 	//		}
 	//	}
 	
-	public void addNameIds(Object parent, List<EObject> contents, List<Object> result) {
+	void addNameIds(Object parent, List<EObject> contents, boolean includeEPackages, List<Object> result) {
 		if (parent != null) {
 			result.add(NameHelper.NAME_PREFIX);
 		}
 		for (EObject content: contents) {
 			String eName = getName(content);
 			if (eName != null) {
-				result.add(NameHelper.NAME_PREFIX + eName);
+				result.add(eName);
+			}
+			if (includeEPackages) {
+				if (! result.contains(content.eClass().getEPackage())) {
+					result.add(content.eClass().getEPackage());
+				}
 			}
 		}
 		for (int i = 0; i < result.size(); i++) {
 			Object id = result.get(i);
+			String name = null;
 			if (id instanceof ENamedElement) {
-				result.set(i, ((ENamedElement)id).getName());
+				name = ((ENamedElement)id).getName();
+			} else if (id instanceof String) {
+				name = (String) id;
+			}
+			if (name != null) {
+				result.set(i, (NAME_PREFIX + name).intern());
 			}
 		}
 	}

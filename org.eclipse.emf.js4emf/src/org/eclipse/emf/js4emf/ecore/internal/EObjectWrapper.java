@@ -95,7 +95,7 @@ class EObjectWrapper extends ContentsWrapper {
 		EClass eClass = eObject.eClass();
 		List<Object> ids = getIds(delegate2Super(), true);
 		ids.addAll(eClass.getEAllStructuralFeatures());
-		this.javascriptSupport.getNameSupport().addNameIds(eObject.eContainer(), eObject.eContents(), ids);
+		this.javascriptSupport.getNameSupport().addNameIds(eObject.eContainer(), eObject.eContents(), false, ids);
 		return ids.toArray();
 	}
 

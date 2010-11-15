@@ -17,6 +17,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.js4emf.ecore.IJsObject;
+import org.eclipse.emf.js4emf.ecore.IJsScope;
 import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
@@ -89,7 +90,8 @@ public abstract class JsWrapper extends NativeJavaObject implements Adapter, IJs
 	}
 	
 	public boolean isAdapterForType(Object type) {
-		return IJsObject.class.equals(type);
+		return type instanceof JavascriptSupportImpl.AdapterType &&
+			((JavascriptSupportImpl.AdapterType) type).isTypeFor(this.javascriptSupport, IJsScope.class);
 	}
 
 	public void notifyChanged(Notification notification) {

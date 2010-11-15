@@ -32,7 +32,6 @@ public class EClassifierPrototypeProvider extends JavascriptSupportHelper implem
 				if (prototypeClass instanceof EClass) {
 					EClass prototypeEClass = (EClass)prototypeClass;
 					initEClassPrototype(prototype, prototypeEClass);
-					getJavascriptSupport().getEPackageHelper().addEPackageVariable(prototypeClass);
 				}
 			}
 			return prototype;

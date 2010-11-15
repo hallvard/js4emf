@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<ejt:C1 xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ejt="http://www.eclipse.org/e4/emf/ecore/javascript/tests/ecoreJavascriptTest.ecore" xsi:schemaLocation="http://www.eclipse.org/e4/emf/ecore/javascript/tests/ecoreJavascriptTest.ecore ecoreJavascriptTest.ecore" name="c1">
+<ejt:C1 xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ejt="http://www.eclipse.org/emf/js4emf/tests/ecoreJavascriptTest.ecore" xsi:schemaLocation="http://www.eclipse.org/emf/js4emf/tests/ecoreJavascriptTest.ecore ecoreJavascriptTest.ecore" name="c1">
   <c2s name="c21" value="21"/>
   <c2s name="c22" value="22"/>
   <c2s xsi:type="ejt:C3" name="c31" value="31"/>

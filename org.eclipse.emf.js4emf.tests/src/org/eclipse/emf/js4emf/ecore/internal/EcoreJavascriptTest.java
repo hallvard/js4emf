@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 public class EcoreJavascriptTest extends AbstractJavascriptTest {
 
@@ -24,19 +25,7 @@ public class EcoreJavascriptTest extends AbstractJavascriptTest {
 	
 	private Object evalScript(Object scopePrototype, String script) {
 		return evaluateInObject(scopePrototype, script);
-//		return evalScript((Scriptable)javascriptSupport.wrap(scopePrototype), script);
 	}
-//	private Object evalScript(Scriptable scope, String script) {
-//		Scriptable scope = (Scriptable)javascriptSupport.wrap(scopePrototype);
-//		scope.setParentScope(javascriptSupport.getScope(scopePrototype));
-//		if (! script.startsWith("return")) {
-//			script = "return " + script;
-//		}
-//		script = "function ScriptScrapBookView() { " + script + "}";
-//		Object result = javascriptSupport.evaluate(script, scope, true);
-//		result = javascriptSupport.callMethod(scope, "ScriptScrapBookView", (Object[])null, true);
-//		return result;
-//	}
 
 	/*
 	 * Test methods EObject.js
@@ -44,25 +33,25 @@ public class EcoreJavascriptTest extends AbstractJavascriptTest {
 	
 	public void testEcoreIsA() {
 		EObject c1 = id2EObject("c1");
-		String isAScript = "return this.isA($ecoreJavascriptTest.$C1);";
+		String isAScript = "this.isA($ecoreJavascriptTest.$C1);";
 		assertEquals(Boolean.TRUE, evalScript(c1, isAScript));
 	}
 
-//	public void testEcoreCopy() {
-//		EObject c1 = id2EObject("c1");
-//		String copyScript = "return this.copy();";
-//		Object copy = evalScript(c1, copyScript);
-//		assertTrue(copy instanceof EObject);
-//		assertNotSame(c1, copy);
-//		assertTrue(EcoreUtil.equals(c1, (EObject)copy));
-//	}
-
 	public void testEcoreFindContainer() {
 		EObject c1 = id2EObject("c1"), c11 = id2EObject("c11"), c211 = id2EObject("c211");
-		String isAScript = "return this.findContainer($ecoreJavascriptTest.$C1);";
-		assertEquals(c11, evalScript(c211, isAScript));
-		assertEquals(c1, evalScript(c11, isAScript));
-		assertEquals(null, evalScript(c1, isAScript));
+		String findContainerScript = "this.findContainer($ecoreJavascriptTest.$C1);";
+		assertEquals(c11, evalScript(c211, findContainerScript));
+		assertEquals(c1, evalScript(c11, findContainerScript));
+		assertEquals(null, evalScript(c1, findContainerScript));
+	}
+	
+	public void testEcoreCopy() {
+		EObject c1 = id2EObject("c1");
+		String copyScript = "this.copy();";
+		Object copy = evalScript(c1, copyScript);
+		assertTrue(copy instanceof EObject);
+		assertNotSame(c1, copy);
+		assertTrue(EcoreUtil.equals(c1, (EObject)copy));
 	}
 
 	/*
@@ -70,11 +59,11 @@ public class EcoreJavascriptTest extends AbstractJavascriptTest {
 	 */
 	
 	public void testEcoreContains() {
-		String resourceContainsScript = "return this.__().contains($(this, 'c1'));";
+		String resourceContainsScript = "this.__().contains($(this, 'c1'));";
 		assertEquals(Boolean.TRUE, evalScript(resource, resourceContainsScript));
-		String eObjectContainsScript = "return this.__().contains($(this, 'c21'));";
+		String eObjectContainsScript = "this.__().contains($(this, 'c21'));";
 		assertEquals(Boolean.TRUE, evalScript(resource.getContents().get(0), eObjectContainsScript));
-		String resourceSetContainsScript = "return this.resourceSet.__().contains(this);";
+		String resourceSetContainsScript = "this.resourceSet.__().contains(this);";
 		assertEquals(Boolean.TRUE, evalScript(resource, resourceSetContainsScript));
 	}
 
