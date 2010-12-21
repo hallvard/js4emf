@@ -1,8 +1,0 @@
-<project default="no.hal.emf.ecore.javascript.jar">
-	<target name="no.hal.emf.ecore.javascript.jar">
-		<jar destfile="no.hal.emf.ecore.javascript.jar" basedir="bin">
-			<exclude name="**/*Test.class"/>
-		</jar>
-		<eclipse.refreshLocal resource="no.hal.emf.ecore.javascript"/>
-	</target>
-</project>
