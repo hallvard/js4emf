@@ -107,7 +107,7 @@ public class EditJavascriptCommandHandler extends AbstractHandler {
 										IDocumentProvider documentProvider = ((AbstractDecoratedTextEditor)editor).getDocumentProvider();
 										String newSource = documentProvider.getDocument(editorInput).get();
 										try {
-											ScriptSourceView.commitScriptText(eObject, newSource, editingDomainProvider);
+											ScriptSourceView.setFeatureValue(eObject, newSource, ScriptSourceView.getScriptSourceFeatureValueProvider(eObject), editingDomainProvider);
 										} catch (Exception e) {
 											log.log(Level.WARNING, "Exception setting script text to " + newSource + ": " + e, e);
 										}

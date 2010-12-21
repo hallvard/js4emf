@@ -149,6 +149,11 @@ public class Activator extends Plugin {
 	
 	private void processFeatureValueProviderExtensionPoint() {
 		IExtensionPoint ep = Platform.getExtensionRegistry().getExtensionPoint(getBundle().getSymbolicName() + ".featureValueProvider");
+		if (ep == null) {
+			featureValueProviderMap.put(getFeatureValueProviderKey("scriptSource", "http://www.eclipse.org/emf/2002/Ecore"),
+					new org.eclipse.emf.js4emf.ecore.internal.featurevalueprovider.ScriptSourceFeatureValueProvider());
+			return;
+		}
 		IExtension[] extensions = ep.getExtensions();
 		for (int i = 0; i < extensions.length; i++) {
 			for (IConfigurationElement ces: extensions[i].getConfigurationElements()) {

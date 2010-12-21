@@ -163,7 +163,7 @@ public class JavascriptSupportTest extends AbstractJavascriptTest {
 	public void testCallInstanceMethodsInScript() {
 		EObject c1 = resource.getContents().get(0);
 		int n = 0;
-		for (Iterator<EObject> c2s = ((List<EObject>)c1.eGet(c1.eClass().getEStructuralFeature("c2s"))).iterator(); c2s.hasNext();) {
+		for (Iterator<EObject> c2s = ((List<EObject>) c1.eGet(c1.eClass().getEStructuralFeature("c2s"))).iterator(); c2s.hasNext();) {
 			EObject c2 = (EObject)c2s.next();
 			if ("C3".equals(c2.eClass().getName()) && (n == 0)) {
 				evaluateInObject(c2, test11Script);
@@ -186,6 +186,7 @@ public class JavascriptSupportTest extends AbstractJavascriptTest {
 		for (Iterator<EObject> c2s = ((List<EObject>)c1.eGet(c1.eClass().getEStructuralFeature("c2s"))).iterator(); c2s.hasNext();) {
 			EObject c2 = c2s.next();
 			if ("C3".equals(c2.eClass().getName())) {
+				javascriptSupport.getJsObject(c2);
 				setFeatureValue(c2, "title", "Mr");
 				Assert.assertEquals("Mr Hacker", getFeatureValue(c2, "title"));
 			}
@@ -196,7 +197,7 @@ public class JavascriptSupportTest extends AbstractJavascriptTest {
 		EObject c1 = resource.getContents().get(0);
 		EPackage c1ClassPackage = c1.eClass().getEPackage();
 //		String packVariableName = javascriptSupport.getNamePropertyName(c1ClassPackage); // "javascriptSupportTest"
-		assertEquals(c1ClassPackage, getVariable(c1, NAME_PREFIX + "javascriptSupportTest"));
+		assertEquals(c1ClassPackage, getVariable(resource, NAME_PREFIX + "javascriptSupportTest"));
 	}
 
 	public void testClassLoader(boolean ignore) {

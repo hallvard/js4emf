@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ASCII"?>
+<st:Company xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:st="http://www.eclipse.org/emf/js4emf/tests/ecoreJavascriptDelegatesTest.ecore" xsi:schemaLocation="http://www.eclipse.org/emf/js4emf/tests/ecoreJavascriptDelegatesTest.ecore ecoreJavascriptDelegatesTest.ecore" name="acme">
+  <employees name="Bob" manager="//@employees.3"/>
+  <employees name="Jane" manager="//@employees.3"/>
+  <employees name="Fred" manager="//@employees.3"/>
+  <employees name="Amy"/>
+  <employees name="norbert" manager="//@employees.0"/>
+  <employees name="Sally" manager="//@employees.0"/>
+</st:Company>

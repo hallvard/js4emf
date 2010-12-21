@@ -38,8 +38,11 @@ public class ScriptSourceView extends AbstractSelectionView {
 
 	protected void selectionChanged(ISelection selection) {
 		commitScriptText(getSelectedEObject());
-		String scriptText = null;
 		super.selectionChanged(selection);
+	}
+	
+	protected void updateView() {
+		String scriptText = null;
 		if (getSelectedEObject() != null) {
 			scriptText = getScriptText(getSelectedEObject());
 		}
@@ -59,42 +62,43 @@ public class ScriptSourceView extends AbstractSelectionView {
 		return JavascriptSupportFactory.getInstance().getJavascriptSupport(eObject).getScriptSourceFeatureValueProvider(eObject);
 	}
 
+	@Override
 	protected boolean isValidSelection(Object o) {
 		return o instanceof EObject && getScriptSourceFeatureValueProvider((EObject) o) != null;
 	}
 	
+	protected FeatureValueProvider<String> getEObjectScriptSourceFeatureValueProvider(EObject eObject) {
+		return getScriptSourceFeatureValueProvider(eObject);
+	}
+	
 	private String getScriptText(EObject eObject) {
-		final FeatureValueProvider<String> featureValueProvider = getScriptSourceFeatureValueProvider(eObject);
-//		EAttribute scriptAttr = JavascriptSupport.getScriptSourceAttribute(eObject, JavascriptSupport.JAVASCRIPT_EXTENSION);
+		final FeatureValueProvider<String> featureValueProvider = getEObjectScriptSourceFeatureValueProvider(eObject);
 		return (featureValueProvider != null ? getScriptText(eObject, featureValueProvider) : "");
 	}
-//	private static String getScriptText(EObject eObject, EAttribute scriptAttr) {
-//		Object value = eObject.eGet(scriptAttr);
-//		return (value != null ? value.toString().trim() : "");
-//	}
 
 	private static String getScriptText(EObject eObject, FeatureValueProvider<String> featureValueProvider) {
 		Object value = featureValueProvider.getFeatureValue(eObject);
 		return (value != null ? value.toString().trim() : "");
 	}
 
-	private EObject getSelectedEObject() {
-		return (EObject) this.selection;
+	protected EObject getSelectedEObject() {
+		return (EObject) getSelection();
 	}
 
 	private void commitScriptText(EObject eObject) {
 		if (eObject != null) {
 			String scriptText = getScriptControlText();
-			try {
-				commitScriptText(eObject, scriptText, editingDomainProvider);
-			} catch (Exception e) {
-				log.log(Level.WARNING, "Exception setting script text to " + scriptText + ": " + e, e);
+			if (! scriptText.equals(getScriptText(eObject))) {
+				try {
+					setFeatureValue(eObject, scriptText, getEObjectScriptSourceFeatureValueProvider(eObject), editingDomainProvider);
+				} catch (Exception e) {
+					log.log(Level.WARNING, "Exception setting script text to " + scriptText + ": " + e, e);
+				}
 			}
 		}
 	}
 
-	static void commitScriptText(final EObject eObject, final String scriptText, IEditingDomainProvider editingDomainProvider) {
-		final FeatureValueProvider<String> featureValueProvider = getScriptSourceFeatureValueProvider(eObject);
+	static void setFeatureValue(final EObject eObject, final String scriptText, final FeatureValueProvider<String> featureValueProvider, IEditingDomainProvider editingDomainProvider) {
 		if (editingDomainProvider != null && featureValueProvider != null) {
 			EditingDomain editingDomain = editingDomainProvider.getEditingDomain();
 			if (! scriptText.equals(getScriptText(eObject, featureValueProvider))) {
@@ -117,6 +121,7 @@ public class ScriptSourceView extends AbstractSelectionView {
 
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent);
+		createTopControls(parent);
 		scriptTextControl = createTextControl(parent, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);
 		scriptTextControl.addFocusListener(new FocusListener(){
 			public void focusGained(FocusEvent e) {
@@ -127,6 +132,13 @@ public class ScriptSourceView extends AbstractSelectionView {
 		});
 	}
 
+	protected void createTopControls(Composite parent) {
+	}
+
+	protected Text getScriptTextControl() {
+		return scriptTextControl;
+	}
+	
 	public void setFocus() {
 		scriptTextControl.setFocus();
 	}

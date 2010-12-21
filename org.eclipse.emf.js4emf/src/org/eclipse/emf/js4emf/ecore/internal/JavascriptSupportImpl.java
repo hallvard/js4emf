@@ -163,19 +163,22 @@ public class JavascriptSupportImpl extends AdapterImpl implements JavascriptSupp
 
 	//
 
+	private ClassLoader applicationClassLoader = null;
+	
+	public void setApplicationClassLoader(ClassLoader classLoader) {
+		this.applicationClassLoader = classLoader;
+	}
+	
 	private Context enterContext() {
 		Context context = Context.enter(this.context);
 		context.setWrapFactory(this.getWrapFactory());
+		if (applicationClassLoader != null) {
+			context.setApplicationClassLoader(applicationClassLoader);
+		}
 		return context;
 	}
 	private void exitContext() {
 		Context.exit();
-	}
-
-	public void setApplicationClassLoader(ClassLoader classLoader) {
-		Context context = enterContext();
-		context.setApplicationClassLoader(classLoader);
-		exitContext();
 	}
 
 	private void initStandardObjects(Scriptable scope) {
@@ -266,7 +269,7 @@ public class JavascriptSupportImpl extends AdapterImpl implements JavascriptSupp
 	}
 
 	public Object callFunction(Resource res, String funName, Object args, boolean rethrowException) {
-		return call(res, funName, args, null, rethrowException);
+		return call(res, getVariable(res, funName), args, null, rethrowException);
 	}
 	public Object callFunction(Resource res, Function method, Object args, boolean rethrowException) {
 		return call(res, method, args, null, rethrowException);
@@ -279,13 +282,17 @@ public class JavascriptSupportImpl extends AdapterImpl implements JavascriptSupp
 		try {
 			Scriptable thisObject = scope;
 			if (thisEObject instanceof Scriptable) {
-				thisObject = (Scriptable)thisEObject;
+				thisObject = (Scriptable) thisEObject;
 			} else if (thisEObject != null) {
-				thisObject = (Scriptable)wrap(thisEObject);
+				thisObject = (Scriptable) wrap(thisEObject);
 			}
 			Object fun = funObject;
 			if (fun instanceof String) {
-				fun = (thisEObject != null ? getJsObject(thisObject).getProperty((String)fun) : getVariable((String)fun, scope));
+				if (thisObject instanceof IJsObject) {
+					fun = ((IJsObject) thisObject).getProperty((String) fun);
+				} else if (thisObject instanceof Scriptable) {
+					fun = getVariable((String) fun, (Scriptable) thisObject);
+				}
 			}
 			if (fun instanceof Function) {
 				result = ((Function) fun).call(context, scope, thisObject, wrap(args, context, scope));

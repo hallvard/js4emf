@@ -5,6 +5,7 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EOperation.Internal.InvocationDelegate;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EStructuralFeature.Internal.SettingDelegate;
+import org.eclipse.emf.js4emf.ecore.JavascriptSupportFactory;
 import org.eclipse.emf.js4emf.ecore.internal.JavascriptSupportImpl;
 
 public class JavascriptDelegateFactory implements EStructuralFeature.Internal.SettingDelegate.Factory, EOperation.Internal.InvocationDelegate.Factory {
@@ -18,6 +19,6 @@ public class JavascriptDelegateFactory implements EStructuralFeature.Internal.Se
 	}
 
 	static JavascriptSupportImpl getJavascriptSupport(EObject target) {
-		return null;
+		return (JavascriptSupportImpl) JavascriptSupportFactory.getInstance().getJavascriptSupport(target);
 	}
 }

@@ -160,11 +160,11 @@ class ResourceScope extends NativeObject implements Adapter, IJsScope {
 	// from IScopeObject
 	
 	public Object getVariable(String name) {
-		return javascriptSupport.getVariable(resource, name);
+		return javascriptSupport.unwrap(get(name, this));
 	}
 
 	public void setVariable(String name, Object value) {
-		javascriptSupport.setVariable(resource, name, value);
+		put(name, this, javascriptSupport.wrap(value));
 	}
 
 	public Object callFunction(String methodName, Object args) {

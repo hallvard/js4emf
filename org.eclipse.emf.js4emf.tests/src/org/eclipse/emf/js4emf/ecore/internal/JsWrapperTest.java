@@ -25,7 +25,6 @@ public class JsWrapperTest extends AbstractJavascriptTest {
 
 	public void testResourceWrapper() {
 		IJsObject resourceWrapper = javascriptSupport.getJsObject(resource);
-		assertTrue(resourceWrapper instanceof ResourceWrapper);
 		Object population = resourceWrapper.getElement(0);
 		checkEObjectClass(population, "Population");
 	}

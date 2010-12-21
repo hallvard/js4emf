@@ -1,12 +1,9 @@
 package org.eclipse.emf.js4emf.ecore.internal.featurevalueprovider;
 
 import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EOperation;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.js4emf.ecore.FeatureValueProvider;
 import org.eclipse.emf.js4emf.ecore.internal.JavascriptSupportImpl;
@@ -31,10 +28,10 @@ public class ScriptSourceFeatureValueProvider implements FeatureValueProvider<St
 			EModelElement annotatedElement = (EModelElement) notifier;
 			if (annotatedElement instanceof EOperation || annotatedElement instanceof EStructuralFeature) {
 				EcoreUtil.setAnnotation(annotatedElement, JavascriptSupportImpl.SCRIPTING_SOURCE_URI, JavascriptSupportImpl.JAVASCRIPT_EXTENSION, value);
-				EPackage ePackage = ((EClass) annotatedElement.eContainer()).getEPackage();
-				EcoreUtil.setAnnotation(ePackage, EcorePackage.eNS_URI, "settingDelegates", JavascriptSupportImpl.SCRIPTING_SOURCE_URI);
-				EcoreUtil.setAnnotation(ePackage, EcorePackage.eNS_URI, "invocationDelegates", JavascriptSupportImpl.SCRIPTING_SOURCE_URI);
-				EcoreUtil.setAnnotation(ePackage, EcorePackage.eNS_URI, "validationDelegates", JavascriptSupportImpl.SCRIPTING_SOURCE_URI);
+//				EPackage ePackage = ((EClass) annotatedElement.eContainer()).getEPackage();
+//				EcoreUtil.setAnnotation(ePackage, EcorePackage.eNS_URI, "settingDelegates", JavascriptSupportImpl.SCRIPTING_SOURCE_URI);
+//				EcoreUtil.setAnnotation(ePackage, EcorePackage.eNS_URI, "invocationDelegates", JavascriptSupportImpl.SCRIPTING_SOURCE_URI);
+//				EcoreUtil.setAnnotation(ePackage, EcorePackage.eNS_URI, "validationDelegates", JavascriptSupportImpl.SCRIPTING_SOURCE_URI);
 			}
 		}
 	}

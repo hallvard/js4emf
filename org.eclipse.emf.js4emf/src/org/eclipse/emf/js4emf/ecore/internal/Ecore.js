@@ -8,8 +8,12 @@
  * Contributors:
  *     Hallvard Traetteberg - initial API and implementation
  ******************************************************************************/
-function $(object, name) {
-	var predicate = function(object) { return name == object.name;};
+function $(object, name, predicate) {
+	var type = typeof predicate;
+	var property = (type == "string" ? predicate : (predicate == undefined ? 'name' : undefined));
+	if (property != undefined) {
+		predicate = function(arg) { return name == arg[property];};
+	}
 	var depth = -1, last = null;
     while (object != null) {
     	var value = object.__().findOne(predicate, depth, last);

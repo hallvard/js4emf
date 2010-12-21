@@ -225,7 +225,7 @@ public class NameHelper extends JavascriptSupportHelper {
 		for (EObject content: contents) {
 			String eName = getName(content);
 			if (eName != null) {
-				result.add(eName);
+				result.add((NAME_PREFIX + eName).intern());
 			}
 			if (includeEPackages) {
 				if (! result.contains(content.eClass().getEPackage())) {
@@ -238,11 +238,9 @@ public class NameHelper extends JavascriptSupportHelper {
 			String name = null;
 			if (id instanceof ENamedElement) {
 				name = ((ENamedElement)id).getName();
-			} else if (id instanceof String) {
-				name = (String) id;
 			}
 			if (name != null) {
-				result.set(i, (NAME_PREFIX + name).intern());
+				result.set(i, name.intern());
 			}
 		}
 	}

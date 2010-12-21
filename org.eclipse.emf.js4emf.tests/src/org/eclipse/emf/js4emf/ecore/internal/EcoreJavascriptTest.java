@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
@@ -25,6 +26,16 @@ public class EcoreJavascriptTest extends AbstractJavascriptTest {
 	
 	private Object evalScript(Object scopePrototype, String script) {
 		return evaluateInObject(scopePrototype, script);
+	}
+
+	/*
+	 * Test the ability to refer to EMF classes.
+	 * It has been a problem that this works when running tests inside Eclipse, but not in headless mode
+	 */
+	public void testNewBasicEList() {
+		String newBasicEListScript = "new org.eclipse.emf.common.util.BasicEList(42);";
+		Object result = evalScript(resource, newBasicEListScript);
+		assertTrue(result instanceof EList);
 	}
 
 	/*

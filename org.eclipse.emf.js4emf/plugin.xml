@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="featureValueProvider" name="Feature Value Provider" schema="schema/featureValueProvider.exsd"/>
+
+      <extension
+         point="org.eclipse.e4.emf.javascript.featureValueProvider">
+      <package
+            featureName="scriptSource"
+            featureValueProvider="org.eclipse.emf.js4emf.ecore.internal.featurevalueprovider.ScriptSourceFeatureValueProvider"
+            nsUri="http://www.eclipse.org/emf/2002/Ecore">
+      </package>
+   </extension>
+
+</plugin>

@@ -40,23 +40,29 @@ EOperation : ?
     body-><body>
 	 */
 
+	private RuntimeException validationException(String constraint, Throwable t) {
+		return new RuntimeException("Couldn't validate invariant " + constraint, t);
+	}
+	
 	// invariant, defined by means of an annotated EOperation
 	public boolean validate(EClass eClass, EObject eObject, Map<Object, Object> context, EOperation invariant, String expression) {
 		try {
 			Object result = JavascriptInvocationDelegate.dynamicInvoke(eClass, invariant.getName(), invariant.getEParameters().iterator(), expression, eObject, null, getJavascriptSupport(eObject));
 			return booleanValue(result);
 		} catch (InvocationTargetException e) {
-			throw new RuntimeException("Couldn't validate invariant " + invariant.getName(), e);
+			throw validationException(invariant.getName(), e);
 		}
 	}
+
+	private final String CONSTRAINT_METHOD_NAME_PREFIX = "_check_";
 
 	// constraint, defined by means of annotation on eClass
 	public boolean validate(EClass eClass, EObject eObject, Map<Object, Object> context, String constraint, String expression) {
 		try {
-			Object result = JavascriptInvocationDelegate.dynamicInvoke(eClass, eClass, constraint, "_check_" + constraint, null, eObject, null, getJavascriptSupport(eObject));
+			Object result = JavascriptInvocationDelegate.dynamicInvoke(eClass, eClass, constraint, CONSTRAINT_METHOD_NAME_PREFIX + constraint, null, eObject, null, getJavascriptSupport(eObject));
 			return booleanValue(result);
 		} catch (InvocationTargetException e) {
-			throw new RuntimeException("Couldn't validate invariant " + constraint, e);
+			throw validationException(constraint, e);
 		}
 	}
 
@@ -64,10 +70,10 @@ EOperation : ?
 	public boolean validate(EDataType eDataType, Object value, Map<Object, Object> context, String constraint, String expression) {
 		List<?> params = Collections.singletonList(eDataType.getName());
 		try {
-			Object result = JavascriptInvocationDelegate.dynamicInvoke(eDataType, "_check_" + constraint, params.iterator(), expression, Collections.singletonList(value), getJavascriptSupport(eDataType));
+			Object result = JavascriptInvocationDelegate.dynamicInvoke(eDataType, CONSTRAINT_METHOD_NAME_PREFIX + constraint, params.iterator(), expression, Collections.singletonList(value), getJavascriptSupport(eDataType));
 			return booleanValue(result);		
 		} catch (InvocationTargetException e) {
-			throw new RuntimeException("Couldn't validate invariant " + constraint, e);
+			throw validationException(constraint, e);
 		}
 //		return booleanValue(getJavascriptSupport().evaluate(expression, value, true));
 	}

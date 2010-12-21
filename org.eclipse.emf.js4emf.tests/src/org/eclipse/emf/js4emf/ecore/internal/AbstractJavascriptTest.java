@@ -30,7 +30,7 @@ public class AbstractJavascriptTest extends TestCase {
 	protected XMIResource resource;
 
 	// must match the path of the one in test1.ecore 
-	public final static URI TESTS_URI = URI.createURI("http://www.eclipse.org/e4/emf/ecore/javascript/tests/");
+	public final static URI TESTS_URI = URI.createURI("http://www.eclipse.org/emf/js4emf/tests/");
 
 	private URI createParentFolderUri(URI uri) {
 		String lastSegment = uri.lastSegment();
@@ -78,6 +78,7 @@ public class AbstractJavascriptTest extends TestCase {
 
 		resource = (XMIResource)resourceSet.getResource(testUri, true);
 		javascriptSupport = JavascriptSupportFactory.getInstance().getJavascriptSupport(resource);
+		((JavascriptSupportImpl) javascriptSupport).setApplicationClassLoader(this.getClass().getClassLoader());
 
 		javascriptSupport.setUriConverter(resourceSet.getURIConverter());
 		

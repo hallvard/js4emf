@@ -10,8 +10,15 @@
  ******************************************************************************/
 package org.eclipse.emf.js4emf.ui;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtension;
+import org.eclipse.core.runtime.IExtensionPoint;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -96,5 +103,46 @@ public class Activator extends AbstractUIPlugin {
 			view.display(getConsole(name));
 		} catch (PartInitException e) {
 		}
+	}
+	
+	//
+
+	private Map<String, IDelegatesScriptSourceFeatureValueProviders> delegatesScriptSourceFeatureValueProvidersMap = null;
+	
+	private void processFeatureValueProviderExtensionPoint() {
+		IExtensionPoint ep = Platform.getExtensionRegistry().getExtensionPoint(getBundle().getSymbolicName() + ".delegatesScriptSourceProvider");
+		IExtension[] extensions = ep.getExtensions();
+		for (int i = 0; i < extensions.length; i++) {
+			for (IConfigurationElement ces: extensions[i].getConfigurationElements()) {
+				String name = ces.getName();
+				if ("delegatesScriptSourceProvider".equals(name)) {
+					String providerName = ces.getAttribute("name"), uri = ces.getAttribute("uri");
+					String settingDelegateKey = ces.getAttribute("settingDelegateKey");
+					String invocationDelegateKey = ces.getAttribute("invocationDelegateKey");
+					IDelegatesScriptSourceFeatureValueProviders delegatesScriptSourceFeatureValueProviders = 
+						new DelegatesScriptSourceFeatureValueProviders(uri, settingDelegateKey, invocationDelegateKey);
+					if (delegatesScriptSourceFeatureValueProviders != null) {
+						delegatesScriptSourceFeatureValueProvidersMap.put(providerName, delegatesScriptSourceFeatureValueProviders);
+					}
+				}
+			}
+		}
+	}
+	
+	private Map<String, IDelegatesScriptSourceFeatureValueProviders> getDelegatesScriptSourceFeatureValueProvidersMap() {
+		if (delegatesScriptSourceFeatureValueProvidersMap == null) {
+			delegatesScriptSourceFeatureValueProvidersMap = new HashMap<String, IDelegatesScriptSourceFeatureValueProviders>();
+			processFeatureValueProviderExtensionPoint();
+		}
+		return delegatesScriptSourceFeatureValueProvidersMap;
+	}
+
+	public IDelegatesScriptSourceFeatureValueProviders getDelegatesScriptSourceFeatureValueProviders(String providerName) {
+		return getDelegatesScriptSourceFeatureValueProvidersMap().get(providerName);
+	}
+	
+	public String[] getDelegatesScriptSourceFeatureValueProviderNames() {
+		Set<String> providerNames = getDelegatesScriptSourceFeatureValueProvidersMap().keySet();
+		return providerNames.toArray(new String[providerNames.size()]);
 	}
 }

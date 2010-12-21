@@ -33,7 +33,7 @@ public abstract class EOperationView extends AbstractSelectionView {
 	}
 
 	protected EObject getSelectedEObject() {
-		return (EObject) this.selection;
+		return (EObject) getSelection();
 	}
 
 	protected String noEOperationsAvailableItem = "<No EOperations available>";

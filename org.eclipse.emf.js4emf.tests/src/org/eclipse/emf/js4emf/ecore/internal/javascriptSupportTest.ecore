@@ -5,13 +5,13 @@
     nsURI="http://www.eclipse.org/emf/js4emf/tests/javascriptSupportTest.ecore" nsPrefix="jst">
   <eClassifiers xsi:type="ecore:EClass" name="C1">
     <eOperations name="getPrefixedName">
-      <eAnnotations source="http://www.eclipse.org/e4/emf/ecore/javascript/source">
+      <eAnnotations source="http://www.eclipse.org/emf/js4emf/source">
         <details key="js" value="return prefix + this.name;"/>
       </eAnnotations>
       <eParameters name="prefix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
     <eOperations name="createC2">
-      <eAnnotations source="http://www.eclipse.org/e4/emf/ecore/javascript/source">
+      <eAnnotations source="http://www.eclipse.org/emf/js4emf/source">
         <details key="js" value="var c2 = $javascriptSupportTest.$C2.create();&#xD;&#xA;c2.name = name;&#xD;&#xA;this.c2s.add(c2);&#xD;&#xA;return c2;"/>
       </eAnnotations>
       <eParameters name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -24,7 +24,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="C2">
     <eOperations name="getSuffixedName">
-      <eAnnotations source="http://www.eclipse.org/e4/emf/ecore/javascript/source">
+      <eAnnotations source="http://www.eclipse.org/emf/js4emf/source">
         <details key="js" value="return this.name + suffix;&#xD;&#xA;"/>
       </eAnnotations>
       <eParameters name="suffix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

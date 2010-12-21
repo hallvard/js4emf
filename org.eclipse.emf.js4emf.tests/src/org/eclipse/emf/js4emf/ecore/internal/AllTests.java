@@ -13,6 +13,8 @@ package org.eclipse.emf.js4emf.ecore.internal;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.eclipse.emf.js4emf.ecore.internal.delegates.JavascriptDelegatesTest;
+
 public class AllTests {
 
 	public static Test suite() {
@@ -21,6 +23,8 @@ public class AllTests {
 		//$JUnit-BEGIN$
 		suite.addTestSuite(JavascriptSupportTest.class);
 		suite.addTestSuite(EcoreJavascriptTest.class);
+		suite.addTestSuite(JsWrapperTest.class);
+		suite.addTestSuite(JavascriptDelegatesTest.class);
 		//$JUnit-END$
 		return suite;
 	}

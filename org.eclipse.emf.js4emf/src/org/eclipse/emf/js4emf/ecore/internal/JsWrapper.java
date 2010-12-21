@@ -17,7 +17,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.js4emf.ecore.IJsObject;
-import org.eclipse.emf.js4emf.ecore.IJsScope;
 import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
@@ -76,8 +75,7 @@ public abstract class JsWrapper extends NativeJavaObject implements Adapter, IJs
 	}
 
 	static void put(List list, int index, Scriptable start, Object value, JavascriptSupportImpl javascriptSupport) {
-		value = javascriptSupport.unwrap(value);
-		list.set(index, value);
+		list.set(index, javascriptSupport.unwrap(value));
 	}
 
 	// from Adapter
@@ -91,7 +89,7 @@ public abstract class JsWrapper extends NativeJavaObject implements Adapter, IJs
 	
 	public boolean isAdapterForType(Object type) {
 		return type instanceof JavascriptSupportImpl.AdapterType &&
-			((JavascriptSupportImpl.AdapterType) type).isTypeFor(this.javascriptSupport, IJsScope.class);
+			((JavascriptSupportImpl.AdapterType) type).isTypeFor(this.javascriptSupport, IJsObject.class);
 	}
 
 	public void notifyChanged(Notification notification) {

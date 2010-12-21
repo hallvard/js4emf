@@ -75,7 +75,7 @@ public class ScriptScrapbookView extends AbstractSelectionView {
 			setEvalExceptionText("No javascript support");
 			return;
 		}
-		if (selection == null) {
+		if (getSelection() == null) {
 			setEvalExceptionText("No selection");
 			return;
 		}
@@ -85,8 +85,8 @@ public class ScriptScrapbookView extends AbstractSelectionView {
 //			scope.setPrototype((Scriptable)javascriptSupport.wrap(selection));
 			script = getFunctionSource(script);
 			evalResultControl.setToolTipText("Result of evaluating and calling:\n" + script);
-			javascriptSupport.getJsObject(selection).evaluate(script);
-			Object result = javascriptSupport.getJsObject(selection).callMethod(methodName, null);
+			javascriptSupport.getJsObject(getSelection()).evaluate(script);
+			Object result = javascriptSupport.getJsObject(getSelection()).callMethod(methodName, null);
 			setEvalResultText(result);
 		} catch (Exception e) {
 			setEvalResultText(e);

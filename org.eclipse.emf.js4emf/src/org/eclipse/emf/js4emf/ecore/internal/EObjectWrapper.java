@@ -105,7 +105,7 @@ class EObjectWrapper extends ContentsWrapper {
 	
 	//
 
-	private boolean supportNotifications = false; 
+	private boolean supportNotifications = true; 
 	
 	public void notifyChanged(Notification notification) {
 		if (supportNotifications) {

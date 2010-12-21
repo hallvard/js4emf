@@ -123,13 +123,17 @@ public abstract class AbstractSelectionView extends ViewPart {
 		}
 	};
 
-	protected Object selection = null;
+	private Object selection = null;
+	
+	protected Object getSelection() {
+		return this.selection;
+	}
 	
 	public void selectionChanged(SelectionChangedEvent event) {
 		selectionChanged(event.getSelection());
 	}
 	protected void selectionChanged(ISelection selection) {
-		Object oldSelection = this.selection;
+		Object oldSelection = getSelection();
 		this.selection = null;
 		if (selection.isEmpty()) {
 		} else if (selection instanceof IStructuredSelection) {
@@ -138,7 +142,7 @@ public abstract class AbstractSelectionView extends ViewPart {
 				this.selection = o;
 			}
 		}
-		if (this.selection != oldSelection) {
+		if (getSelection() != oldSelection) {
 			updateView();
 		}
 	}
