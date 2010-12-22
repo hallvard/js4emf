@@ -5,7 +5,7 @@
    <extension point="org.eclipse.ui.views">
 
       <category
-            name="EMF Javascript"
+            name="Javascript for EMF"
             id="org.eclipse.emf.js4emf.ui"
             >
       </category>
@@ -175,13 +175,14 @@
             >
       </view>
 
+<!--
       <view id="org.eclipse.emf.js4emf.ui.EOperationBodyView"
             name="EMF EOperation Body View"
             category="org.eclipse.emf.js4emf.ui"
             class="org.eclipse.emf.js4emf.ui.EOperationBodyView"
             >
       </view>
-
+-->
       <view id="org.eclipse.emf.js4emf.ui.EcoreDelegatesView"
             name="EMF Delegates View"
             category="org.eclipse.emf.js4emf.ui"

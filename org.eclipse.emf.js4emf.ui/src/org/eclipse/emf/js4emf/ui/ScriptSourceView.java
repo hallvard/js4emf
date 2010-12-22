@@ -43,18 +43,25 @@ public class ScriptSourceView extends AbstractSelectionView {
 	
 	protected void updateView() {
 		String scriptText = null;
-		if (getSelectedEObject() != null) {
-			scriptText = getScriptText(getSelectedEObject());
+		boolean enabled = false;
+		EObject selectedEObject = getSelectedEObject();
+		if (selectedEObject != null) {
+			scriptText = getScriptText(selectedEObject);
+			enabled = hasScriptText(selectedEObject);
 		}
-		setScriptControlText(scriptText);
+		updateScriptTextControl(scriptText, enabled);
+		layoutView();
 	}
 
 	private String getScriptControlText() {
 		return (scriptTextControl != null ? scriptTextControl.getText() : "");
 	}
-	private void setScriptControlText(String scriptText) {
+	private void updateScriptTextControl(String scriptText, Boolean enabled) {
 		if (scriptTextControl != null) {
 			scriptTextControl.setText(scriptText != null ? scriptText : "");
+			if (enabled != null) {
+				scriptTextControl.setEnabled(enabled);
+			}
 		}
 	}
 
@@ -71,8 +78,12 @@ public class ScriptSourceView extends AbstractSelectionView {
 		return getScriptSourceFeatureValueProvider(eObject);
 	}
 	
+	private boolean hasScriptText(EObject eObject) {
+		FeatureValueProvider<String> featureValueProvider = getEObjectScriptSourceFeatureValueProvider(eObject);
+		return featureValueProvider != null;
+	}
 	private String getScriptText(EObject eObject) {
-		final FeatureValueProvider<String> featureValueProvider = getEObjectScriptSourceFeatureValueProvider(eObject);
+		FeatureValueProvider<String> featureValueProvider = getEObjectScriptSourceFeatureValueProvider(eObject);
 		return (featureValueProvider != null ? getScriptText(eObject, featureValueProvider) : "");
 	}
 
@@ -117,12 +128,14 @@ public class ScriptSourceView extends AbstractSelectionView {
 		}
 	}
 
+	private Composite parentComposite = null;
 	private Text scriptTextControl;
 
 	public void createPartControl(Composite parent) {
+		parentComposite = parent;
 		super.createPartControl(parent);
 		createTopControls(parent);
-		scriptTextControl = createTextControl(parent, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);
+		scriptTextControl = createTextControl(parent, SWT.BORDER | SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);
 		scriptTextControl.addFocusListener(new FocusListener(){
 			public void focusGained(FocusEvent e) {
 			}
@@ -130,6 +143,10 @@ public class ScriptSourceView extends AbstractSelectionView {
 				commitScriptText(getSelectedEObject());
 			}
 		});
+	}
+	
+	protected void layoutView() {
+		parentComposite.layout();
 	}
 
 	protected void createTopControls(Composite parent) {

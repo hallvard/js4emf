@@ -7,6 +7,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
@@ -32,11 +33,12 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 public class DelegatesScriptView extends ScriptSourceView {
 
-	private String currentProviderName = "js";
+	private String currentProviderName = "Javascript";
 	private String currentConstraintName = null;
 
 	@Override
@@ -138,6 +140,7 @@ public class DelegatesScriptView extends ScriptSourceView {
 		}
 	};
 
+	private Label delegateKind;
 	private Combo constraintSelector;
 
 	private Display display;
@@ -145,7 +148,9 @@ public class DelegatesScriptView extends ScriptSourceView {
 	@Override
 	public void createTopControls(Composite parent) {
 		this.display = parent.getDisplay();
-		parent.setLayout(new GridLayout(1, false));
+		parent.setLayout(new GridLayout(2, false));
+		delegateKind = new Label(parent, SWT.NONE);
+		delegateKind.setText(defaultDelegateKind);
 		constraintSelector = new Combo(parent, SWT.DROP_DOWN | SWT.READ_ONLY);
 		super.createTopControls(parent);
 	}
@@ -153,8 +158,9 @@ public class DelegatesScriptView extends ScriptSourceView {
 	@Override
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent);
+		delegateKind.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 		constraintSelector.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, false));
-		getScriptTextControl().setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
+		getScriptTextControl().setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true, 2, 1));
 		constraintSelector.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -186,9 +192,32 @@ public class DelegatesScriptView extends ScriptSourceView {
 		return eObject;
 	}
 
+	private final String defaultDelegateKind = "<no delegate>";
+
 	@Override
 	public void updateView() {
-		final List<String> constraints = (getSelectedEObject() instanceof EClassifier ? EcoreUtil.getConstraints((EClassifier) getSelectedEObject()) : Collections.EMPTY_LIST);
+		EObject selectedEObject = getSelectedEObject();
+		boolean constraintsDelegate = selectedEObject instanceof EClassifier;
+		final List<String> constraints = (constraintsDelegate ? EcoreUtil.getConstraints((EClassifier) selectedEObject) : Collections.EMPTY_LIST);
+		String selectedEObjectName = (selectedEObject instanceof EModelElement ? ((ENamedElement) selectedEObject).getName() : null);
+		if (constraintsDelegate) {
+			delegateKind.setText(constraints.size() > 0 ? ("Constraints (" + constraints.size() + ") for " + selectedEObjectName + ": ") : "No constraints");
+		} else if (selectedEObject instanceof EOperation) {
+			EOperation operation = (EOperation) selectedEObject;
+			String operationText = "Operation body for " + selectedEObjectName + "(";
+			for (EParameter param : operation.getEParameters()) {
+				if (operationText.charAt(operationText.length() - 1) != '(') {
+					operationText += ", ";
+				}
+				operationText += param.getName();
+			}
+			operationText += "): ";
+			delegateKind.setText(operationText);
+		} else if (selectedEObject instanceof EStructuralFeature) {
+			delegateKind.setText("Derived value for " + selectedEObjectName + ": ");
+		} else {
+			delegateKind.setText(defaultDelegateKind);
+		}
 		final String currentSelection = currentConstraintName;
 		constraintSelector.clearSelection();
 		String[] items = new String[constraints.size()];
@@ -204,6 +233,7 @@ public class DelegatesScriptView extends ScriptSourceView {
 			constraintSelector.select(pos);
 			constraintSelector.setText(currentConstraintName);
 		}
+		constraintSelector.setVisible(items.length > 0);
 		super.updateView();
 		addConstraintAction.updateEnablement();
 		addInvariantAction.updateEnablement();
