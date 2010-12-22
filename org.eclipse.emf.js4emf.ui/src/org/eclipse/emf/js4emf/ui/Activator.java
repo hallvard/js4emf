@@ -109,6 +109,11 @@ public class Activator extends AbstractUIPlugin {
 
 	private Map<String, IDelegatesScriptSourceFeatureValueProviders> delegatesScriptSourceFeatureValueProvidersMap = null;
 	
+	private String getAttribute(IConfigurationElement ces, String attributeName, String def) {
+		String value = ces.getAttribute(attributeName);
+		return (value != null && value.trim().length() > 0 ? value : def);
+	}
+	
 	private void processFeatureValueProviderExtensionPoint() {
 		IExtensionPoint ep = Platform.getExtensionRegistry().getExtensionPoint(getBundle().getSymbolicName() + ".delegatesScriptSourceProvider");
 		IExtension[] extensions = ep.getExtensions();
@@ -116,9 +121,10 @@ public class Activator extends AbstractUIPlugin {
 			for (IConfigurationElement ces: extensions[i].getConfigurationElements()) {
 				String name = ces.getName();
 				if ("delegatesScriptSourceProvider".equals(name)) {
-					String providerName = ces.getAttribute("name"), uri = ces.getAttribute("uri");
-					String settingDelegateKey = ces.getAttribute("settingDelegateKey");
-					String invocationDelegateKey = ces.getAttribute("invocationDelegateKey");
+					String uri = ces.getAttribute("uri");
+					String providerName = getAttribute(ces, "name", uri.substring(uri.lastIndexOf('/') + 1));
+					String settingDelegateKey = getAttribute(ces, "settingDelegateKey", providerName);
+					String invocationDelegateKey = getAttribute(ces, "invocationDelegateKey", providerName);
 					IDelegatesScriptSourceFeatureValueProviders delegatesScriptSourceFeatureValueProviders = 
 						new DelegatesScriptSourceFeatureValueProviders(uri, settingDelegateKey, invocationDelegateKey);
 					if (delegatesScriptSourceFeatureValueProviders != null) {

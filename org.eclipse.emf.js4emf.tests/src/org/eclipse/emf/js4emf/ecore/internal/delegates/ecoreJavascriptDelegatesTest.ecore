@@ -5,9 +5,9 @@
     nsURI="http://www.eclipse.org/emf/js4emf/tests/ecoreJavascriptDelegatesTest.ecore"
     nsPrefix="st">
   <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
-    <details key="settingDelegates" value="http://www.eclipse.org/emf/js4emf/source"/>
-    <details key="invocationDelegates" value="http://www.eclipse.org/emf/js4emf/source"/>
-    <details key="validationDelegates" value="http://www.eclipse.org/emf/js4emf/source"/>
+    <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/Javascript"/>
+    <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/Javascript"/>
+    <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/Javascript"/>
   </eAnnotations>
   <eClassifiers xsi:type="ecore:EClass" name="Company">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -15,8 +15,8 @@
         eType="#//Employee" containment="true" eOpposite="#//Employee/company"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" lowerBound="1" eType="#//CompanySizeKind"
         changeable="false" volatile="true" transient="true" derived="true">
-      <eAnnotations source="http://www.eclipse.org/emf/js4emf/source">
-        <details key="js" value="var sizeKind = $ecoreJavascriptDelegatesTest.$CompanySizeKind;&#xA;var size = this.employees.size();&#xA;if (size &lt; 50) return sizeKind.$small;&#xA;else if (size &lt; 1000) return sizeKind.$medium;&#xA;else return sizeKind.$large;"/>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/Javascript">
+        <details key="Javascript" value="var sizeKind = $ecoreJavascriptDelegatesTest.$CompanySizeKind;&#xA;var size = this.employees.size();&#xA;if (size &lt; 50) return sizeKind.$small;&#xA;else if (size &lt; 1000) return sizeKind.$medium;&#xA;else return sizeKind.$large;"/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
@@ -24,17 +24,17 @@
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
       <details key="constraints" value="nonNullName"/>
     </eAnnotations>
-    <eAnnotations source="http://www.eclipse.org/emf/js4emf/source">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/Javascript">
       <details key="nonNullName" value="return this.name != null;"/>
     </eAnnotations>
     <eOperations name="reportsTo" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
-      <eAnnotations source="http://www.eclipse.org/emf/js4emf/source">
-        <details key="js" value="return this.reportingChain.contains(manager)"/>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/Javascript">
+        <details key="Javascript" value="return this.reportingChain.contains(manager)"/>
       </eAnnotations>
       <eParameters name="manager" eType="#//Employee"/>
     </eOperations>
     <eOperations name="checkNameLength" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
-      <eAnnotations source="http://www.eclipse.org/emf/js4emf/source">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/Javascript">
         <details key="body" value="// excludes Sally&#xA;var name = this.name;&#xA;return name != null &amp;&amp; name.length != 5;"/>
       </eAnnotations>
       <eParameters name="diagnostics" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain"/>
@@ -46,21 +46,21 @@
         eType="#//Company" eOpposite="#//Company/employees"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="directReports" upperBound="-1"
         eType="#//Employee" changeable="false" volatile="true" transient="true" derived="true">
-      <eAnnotations source="http://www.eclipse.org/emf/js4emf/source">
-        <details key="js" value="var thisEmp = this;&#xA;return this.company.employees.select(function (emp) { return (emp.manager == thisEmp);});"/>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/Javascript">
+        <details key="Javascript" value="var thisEmp = this;&#xA;return this.company.employees.select(function (emp) { return (emp.manager == thisEmp);});"/>
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="allReports" ordered="false"
         upperBound="-1" eType="#//Employee" changeable="false" volatile="true" transient="true"
         derived="true">
-      <eAnnotations source="http://www.eclipse.org/emf/js4emf/source">
-        <details key="js" value="var thisEmp = this;&#xA;return this.company.employees.select(function (emp) { return emp.reportsTo(thisEmp);});"/>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/Javascript">
+        <details key="Javascript" value="var thisEmp = this;&#xA;return this.company.employees.select(function (emp) { return emp.reportsTo(thisEmp);});"/>
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="reportingChain" upperBound="-1"
         eType="#//Employee" changeable="false" volatile="true" transient="true" derived="true">
-      <eAnnotations source="http://www.eclipse.org/emf/js4emf/source">
-        <details key="js" value="var linkedList = null;&#xA;if (this.manager == null)&#xD;&#x9;linkedList = new java.util.LinkedList();&#xD;else {&#xA;&#x9;linkedList = this.manager.reportingChain;&#xA;&#x9;linkedList.addFirst(this.manager);&#xA;}&#xA;return linkedList;&#xA;"/>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/Javascript">
+        <details key="Javascript" value="var linkedList = null;&#xA;if (this.manager == null)&#xD;&#x9;linkedList = new java.util.LinkedList();&#xD;else {&#xA;&#x9;linkedList = this.manager.reportingChain;&#xA;&#x9;linkedList.addFirst(this.manager);&#xA;}&#xA;return linkedList;&#xA;"/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
@@ -73,7 +73,7 @@
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
       <details key="constraints" value="nonEmptyName capitalizedName"/>
     </eAnnotations>
-    <eAnnotations source="http://www.eclipse.org/emf/js4emf/source">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/Javascript">
       <details key="nonEmptyName" value="return NameType != null &amp;&amp; NameType.length > 0;"/>
       <details key="capitalizedName" value="return NameType != null &amp;&amp; NameType.length > 0 &amp;&amp; java.lang.Character.isUpperCase(NameType.charAt(0));"/>
     </eAnnotations>

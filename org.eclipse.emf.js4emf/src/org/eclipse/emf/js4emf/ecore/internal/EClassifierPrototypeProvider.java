@@ -57,12 +57,12 @@ public class EClassifierPrototypeProvider extends JavascriptSupportHelper implem
 	}
 
 	private String getScriptSourceCodeAnnotation(EModelElement modelElement) {
-		return JavascriptSupportImpl.getAnnotation(modelElement, JavascriptSupportImpl.SCRIPTING_SOURCE_URI, JavascriptSupportImpl.JAVASCRIPT_EXTENSION, null);
+		return JavascriptSupportImpl.getAnnotation(modelElement, JavascriptSupportImpl.SCRIPTING_SOURCE_URI, JavascriptSupportImpl.JAVASCRIPT_NAME, null);
 	}
 
 	public static void setScriptSourceCodeAnnotation(EModelElement modelElement, String script) {
 		 EcoreUtil.setAnnotation(modelElement,
-				JavascriptSupportImpl.SCRIPTING_SOURCE_URI, JavascriptSupportImpl.JAVASCRIPT_EXTENSION,
+				JavascriptSupportImpl.SCRIPTING_SOURCE_URI, JavascriptSupportImpl.JAVASCRIPT_NAME,
 				script);
 	}
 

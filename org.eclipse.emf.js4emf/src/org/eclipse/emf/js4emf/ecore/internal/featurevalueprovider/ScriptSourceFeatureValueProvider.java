@@ -17,7 +17,7 @@ public class ScriptSourceFeatureValueProvider implements FeatureValueProvider<St
 		if (notifier instanceof EModelElement) {
 			EModelElement annotatedElement = (EModelElement) notifier;
 			if (annotatedElement instanceof EOperation || annotatedElement instanceof EStructuralFeature) {
-				return EcoreUtil.getAnnotation(annotatedElement, JavascriptSupportImpl.SCRIPTING_SOURCE_URI, JavascriptSupportImpl.JAVASCRIPT_EXTENSION);
+				return EcoreUtil.getAnnotation(annotatedElement, JavascriptSupportImpl.SCRIPTING_SOURCE_URI, JavascriptSupportImpl.JAVASCRIPT_NAME);
 			}
 		}
 		return null;
@@ -27,7 +27,7 @@ public class ScriptSourceFeatureValueProvider implements FeatureValueProvider<St
 		if (notifier instanceof EModelElement) {
 			EModelElement annotatedElement = (EModelElement) notifier;
 			if (annotatedElement instanceof EOperation || annotatedElement instanceof EStructuralFeature) {
-				EcoreUtil.setAnnotation(annotatedElement, JavascriptSupportImpl.SCRIPTING_SOURCE_URI, JavascriptSupportImpl.JAVASCRIPT_EXTENSION, value);
+				EcoreUtil.setAnnotation(annotatedElement, JavascriptSupportImpl.SCRIPTING_SOURCE_URI, JavascriptSupportImpl.JAVASCRIPT_NAME, value);
 //				EPackage ePackage = ((EClass) annotatedElement.eContainer()).getEPackage();
 //				EcoreUtil.setAnnotation(ePackage, EcorePackage.eNS_URI, "settingDelegates", JavascriptSupportImpl.SCRIPTING_SOURCE_URI);
 //				EcoreUtil.setAnnotation(ePackage, EcorePackage.eNS_URI, "invocationDelegates", JavascriptSupportImpl.SCRIPTING_SOURCE_URI);

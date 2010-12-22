@@ -39,7 +39,7 @@ public class InstanceScriptProvider extends JavascriptSupportHelper implements S
 		}
 	}
 
-	public static FeatureValueProvider<String> defaultScriptSourceFeatureValueProvider = new FeatureMatcherFeatureValueProvider<String>(new NameAnnotationFeatureMatcher(JavascriptSupportImpl.SCRIPTING_SOURCE_FEATURE_URI, JavascriptSupportImpl.JAVASCRIPT_EXTENSION));
+	public static FeatureValueProvider<String> defaultScriptSourceFeatureValueProvider = new FeatureMatcherFeatureValueProvider<String>(new NameAnnotationFeatureMatcher(JavascriptSupportImpl.SCRIPTING_SOURCE_FEATURE_URI, JavascriptSupportImpl.JAVASCRIPT_NAME));
 	
 	public static FeatureValueProvider<String> getScriptSourceFeatureValueProvider(EObject eObject) {
 		FeatureValueProvider<String> scriptSourceFeatureValueProvider = null;

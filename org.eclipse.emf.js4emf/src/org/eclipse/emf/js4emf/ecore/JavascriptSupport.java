@@ -1,17 +1,19 @@
 package org.eclipse.emf.js4emf.ecore;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.URIConverter;
 
 public interface JavascriptSupport {
 
-	public String JAVASCRIPT_EXTENSION = "js";
+	public final static String JAVASCRIPT_NAME = "Javascript";
+	public final static String JAVASCRIPT_EXTENSION = "js";
 
-	public String SCRIPTING_SOURCE_URI = 			"http://www.eclipse.org/emf/js4emf/source";
-	public String SCRIPTING_SOURCE_FEATURE_URI = 	"http://www.eclipse.org/emf/js4emf/sourceFeature";
-	public String SCRIPTING_EXTERNAL_SOURCE_URI = 	"http://www.eclipse.org/emf/js4emf/externalSource";
+	public final static String SCRIPTING_SOURCE_URI = 			EcorePackage.eNS_URI + "/" + JAVASCRIPT_NAME;
+	public final static String SCRIPTING_SOURCE_FEATURE_URI = 	SCRIPTING_SOURCE_URI + "/sourceFeature";
+	public final static String SCRIPTING_EXTERNAL_SOURCE_URI = 	SCRIPTING_SOURCE_URI + "/externalSource";
 
-	public String SCRIPT_SOURCE_FEATURE_NAME = "scriptSource";
+	public final static String SCRIPT_SOURCE_FEATURE_NAME = "scriptSource";
 
 	/**
 	 * Sets the URIConverter used by this JavascriptSupport

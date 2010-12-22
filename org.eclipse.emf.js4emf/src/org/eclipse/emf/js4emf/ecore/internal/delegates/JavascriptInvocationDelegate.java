@@ -29,7 +29,7 @@ public class JavascriptInvocationDelegate extends BasicInvocationDelegate implem
 		Object ownerFunction = ownerPrototype.get(opName, ownerPrototype);
 		if (! (ownerFunction instanceof Function)) {
 			if (key == null) {
-				key = JavascriptSupportImpl.JAVASCRIPT_EXTENSION;
+				key = JavascriptSupportImpl.JAVASCRIPT_NAME;
 			}
 			String operationBody = EcoreUtil.getAnnotation(modelElement, JavascriptSupportImpl.SCRIPTING_SOURCE_URI, key);
 			ownerFunction = javascriptSupport.defineEClassifierOwnedFunction(owner, opName, params, operationBody, null);

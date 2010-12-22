@@ -15,7 +15,7 @@ public class EClassifierScriptProvider extends JavascriptSupportHelper implement
 		if (key instanceof EClassifier) {
 			EClassifier classifier = (EClassifier) key;
 			URI scriptUri = null;
-			String sourceUri = JavascriptSupportImpl.getAnnotation(classifier, JavascriptSupportImpl.SCRIPTING_EXTERNAL_SOURCE_URI, JavascriptSupportImpl.JAVASCRIPT_EXTENSION, null);
+			String sourceUri = JavascriptSupportImpl.getAnnotation(classifier, JavascriptSupportImpl.SCRIPTING_EXTERNAL_SOURCE_URI, JavascriptSupportImpl.JAVASCRIPT_NAME, null);
 			if (sourceUri != null) {
 				scriptUri = URI.createURI(sourceUri);
 			}
