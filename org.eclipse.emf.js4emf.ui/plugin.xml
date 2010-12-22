@@ -192,12 +192,10 @@
    </extension>
 
 	<extension point="org.eclipse.emf.js4emf.ui.delegatesScriptSourceProvider">
-		<delegatesScriptSourceProvider name="js"
-			uri="http://www.eclipse.org/emf/js4emf/source"
-			settingDelegateKey="js"
-			invocationDelegateKey="js"
+		<delegatesScriptSourceProvider
+			uri="http://www.eclipse.org/emf/2002/Ecore/Javascript"
 		/>
-		<delegatesScriptSourceProvider name="OCL"
+		<delegatesScriptSourceProvider
 			uri="http://www.eclipse.org/emf/2002/Ecore/OCL"
 			settingDelegateKey="derivation"
 			invocationDelegateKey="body"
