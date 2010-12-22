@@ -4,7 +4,7 @@
    <extension-point id="featureValueProvider" name="Feature Value Provider" schema="schema/featureValueProvider.exsd"/>
 
       <extension
-         point="org.eclipse.e4.emf.javascript.featureValueProvider">
+         point="org.eclipse.emf.js4emf.featureValueProvider">
       <package
             featureName="scriptSource"
             featureValueProvider="org.eclipse.emf.js4emf.ecore.internal.featurevalueprovider.ScriptSourceFeatureValueProvider"
