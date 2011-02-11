@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+
+  <prerequisites>
+    <maven>3.0</maven>
+  </prerequisites>
+
+  <properties>
+    <tycho-version>0.10.0</tycho-version>
+  </properties>
+
+  <groupId>org.eclipse.emf.js4emf</groupId>
+  <artifactId>js4emf</artifactId>
+  <version>0.9.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  
+  <repositories>
+   <repository>
+     <id>helios</id>
+     <layout>p2</layout>
+     <url>http://download.eclipse.org/releases/helios</url>
+   </repository>
+  </repositories>
+
+  <modules>
+    <module>org.eclipse.emf.js4emf</module>
+    <module>org.eclipse.emf.js4emf.feature</module>
+    <module>org.eclipse.emf.js4emf.tests</module>
+    <module>org.eclipse.emf.js4emf.ui</module>
+    <module>org.eclipse.emf.js4emf.updatesite</module>
+  </modules>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.sonatype.tycho</groupId>
+        <artifactId>tycho-maven-plugin</artifactId>
+        <version>${tycho-version}</version>
+        <extensions>true</extensions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.sonatype.tycho</groupId>
+        <artifactId>target-platform-configuration</artifactId>
+        <version>${tycho-version}</version>
+        <configuration>
+          <resolver>p2</resolver>
+          <pomDependencies>consider</pomDependencies>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
