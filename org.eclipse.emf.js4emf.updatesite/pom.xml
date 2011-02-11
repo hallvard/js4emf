@@ -5,11 +5,11 @@
   <parent>
     <groupId>org.eclipse.emf.js4emf</groupId>
     <artifactId>js4emf</artifactId>
-    <version>0.9.0-SNAPSHOT</version>
+    <version>0.9.0.qualifier</version>
   </parent>
 
   <groupId>org.eclipse.emf.js4emf</groupId>
   <artifactId>org.eclipse.emf.js4emf.updatesite</artifactId>
-  <version>0.9.0-SNAPSHOT</version>
+  <version>0.9.0.qualifier</version>
   <packaging>eclipse-update-site</packaging>
 </project>

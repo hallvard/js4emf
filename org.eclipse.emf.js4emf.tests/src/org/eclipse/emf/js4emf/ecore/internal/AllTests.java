@@ -14,6 +14,8 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.emf.js4emf.ecore.internal.delegates.JavascriptDelegatesTest;
+import org.eclipse.emf.js4emf.ecore.internal.featurevalueprovider.FeatureMatcherFeatureValueProviderTest;
+import org.eclipse.emf.js4emf.ecore.internal.featurevalueprovider.NameAnnotationFeatureMatcherTest;
 
 public class AllTests {
 
@@ -25,6 +27,8 @@ public class AllTests {
 		suite.addTestSuite(EcoreJavascriptTest.class);
 		suite.addTestSuite(JsWrapperTest.class);
 		suite.addTestSuite(JavascriptDelegatesTest.class);
+		suite.addTestSuite(FeatureMatcherFeatureValueProviderTest.class);
+		suite.addTestSuite(NameAnnotationFeatureMatcherTest.class);
 		//$JUnit-END$
 		return suite;
 	}

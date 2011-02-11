@@ -309,8 +309,6 @@ public class DelegatesScriptView extends ScriptSourceView {
 	@Override
 	protected void createToolbar(IToolBarManager mgr) {
 		super.createToolbar(mgr);
-		mgr.add(addConstraintAction);
-		mgr.add(addInvariantAction);
 		mgr.add(new ControlContribution("providerName") {
 			@Override
 			protected Control createControl(Composite parent) {
@@ -331,5 +329,7 @@ public class DelegatesScriptView extends ScriptSourceView {
 				return combo;
 			}
 		});
+		mgr.add(addConstraintAction);
+		mgr.add(addInvariantAction);
 	}
 }
