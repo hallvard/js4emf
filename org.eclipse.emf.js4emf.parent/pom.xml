@@ -11,8 +11,8 @@
     <tycho-version>0.10.0</tycho-version>
   </properties>
 
-  <groupId>org.eclipse.emf.js4emf</groupId>
-  <artifactId>js4emf</artifactId>
+  <groupId>js4emf</groupId>
+  <artifactId>org.eclipse.emf.js4emf.parent</artifactId>
   <version>0.9.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   
@@ -22,14 +22,19 @@
      <layout>p2</layout>
      <url>http://download.eclipse.org/releases/helios</url>
    </repository>
+   <repository>
+     <id>orbits</id>
+     <layout>p2</layout>
+     <url>http://download.eclipse.org/tools/orbit/downloads/drops/S20101204061544/repository/</url>
+   </repository>
   </repositories>
 
   <modules>
-    <module>org.eclipse.emf.js4emf</module>
-    <module>org.eclipse.emf.js4emf.feature</module>
-    <module>org.eclipse.emf.js4emf.tests</module>
-    <module>org.eclipse.emf.js4emf.ui</module>
-    <module>org.eclipse.emf.js4emf.updatesite</module>
+    <module>../org.eclipse.emf.js4emf</module>
+    <module>../org.eclipse.emf.js4emf.feature</module>
+    <module>../org.eclipse.emf.js4emf.tests</module>
+    <module>../org.eclipse.emf.js4emf.ui</module>
+    <module>../org.eclipse.emf.js4emf.updatesite</module>
   </modules>
 
   <build>

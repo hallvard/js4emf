@@ -4,19 +4,32 @@ import junit.framework.TestCase;
 
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.js4emf.ecore.FeatureValueProvider;
 
 public class FeatureMatcherFeatureValueProviderTest extends TestCase {
 
-	private FeatureMatcherFeatureValueProvider<String> featureValueProvider;
+	private static class FeatureMatcherFeatureValueProviderSubclass extends FeatureMatcherFeatureValueProvider<String> {
+		public FeatureMatcherFeatureValueProviderSubclass(FeatureMatcher featureMatcher) {
+			super(featureMatcher);
+		}
+		
+		@Override
+		public EStructuralFeature getStructuralFeature(EObject eObject) {
+			return super.getStructuralFeature(eObject);
+		}
+	}
+	
+	private FeatureMatcherFeatureValueProviderSubclass featureValueProvider;
 	private EClass eClass;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		featureValueProvider = new FeatureMatcherFeatureValueProvider<String>(new NameAnnotationFeatureMatcher("name"));
+		featureValueProvider = new FeatureMatcherFeatureValueProviderSubclass(new NameAnnotationFeatureMatcher("name"));
 		eClass = EcoreFactory.eINSTANCE.createEClass();
 		featureValueProvider.setTarget(eClass);
 	}

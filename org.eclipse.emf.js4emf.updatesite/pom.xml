@@ -3,12 +3,13 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.eclipse.emf.js4emf</groupId>
-    <artifactId>js4emf</artifactId>
+    <groupId>js4emf</groupId>
+    <artifactId>org.eclipse.emf.js4emf.parent</artifactId>
     <version>0.9.0-SNAPSHOT</version>
+    <relativePath>../org.eclipse.emf.js4emf.parent/pom.xml</relativePath>
   </parent>
 
-  <groupId>org.eclipse.emf.js4emf</groupId>
+  <groupId>js4emf</groupId>
   <artifactId>org.eclipse.emf.js4emf.updatesite</artifactId>
   <version>0.9.0-SNAPSHOT</version>
   <packaging>eclipse-update-site</packaging>
