@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?artifactRepository version='1.1.0'?>
+<artifacts size='1'>
+  <artifact classifier='osgi.bundle' id='org.eclipse.emf.js4emf.core' version='0.9.0.201102181520'>
+    <properties size='6'>
+      <property name='artifact.size' value='104610'/>
+      <property name='download.size' value='104610'/>
+      <property name='download.md5' value='1035866a3ff97e60e94793ea3ef72d2c'/>
+      <property name='maven-groupId' value='org.eclipse.emf.js4emf'/>
+      <property name='maven-artifactId' value='org.eclipse.emf.js4emf.core'/>
+      <property name='maven-version' value='0.9.0-SNAPSHOT'/>
+    </properties>
+  </artifact>
+</artifacts>

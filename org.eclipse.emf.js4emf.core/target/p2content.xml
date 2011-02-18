@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<units size='1'>
+  <unit id='org.eclipse.emf.js4emf.core' version='0.9.0.201102181520'>
+    <update id='org.eclipse.emf.js4emf.core' range='[0.0.0,0.9.0.201102181520)' severity='0'/>
+    <properties size='4'>
+      <property name='org.eclipse.equinox.p2.name' value='Javascript for EMF (Incubation)'/>
+      <property name='maven-groupId' value='org.eclipse.emf.js4emf'/>
+      <property name='maven-artifactId' value='org.eclipse.emf.js4emf.core'/>
+      <property name='maven-version' value='0.9.0-SNAPSHOT'/>
+    </properties>
+    <provides size='10'>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.js4emf.core' version='0.9.0.201102181520'/>
+      <provided namespace='osgi.bundle' name='org.eclipse.emf.js4emf.core' version='0.9.0.201102181520'/>
+      <provided namespace='java.package' name='org.eclipse.emf.js4emf' version='0.0.0'/>
+      <provided namespace='java.package' name='org.eclipse.emf.js4emf.ecore' version='0.0.0'/>
+      <provided namespace='java.package' name='org.eclipse.emf.js4emf.ecore.internal' version='0.0.0'/>
+      <provided namespace='java.package' name='org.eclipse.emf.js4emf.ecore.internal.delegates' version='0.0.0'/>
+      <provided namespace='java.package' name='org.eclipse.emf.js4emf.ecore.internal.featurevalueprovider' version='0.0.0'/>
+      <provided namespace='java.package' name='org.eclipse.emf.js4emf.ecore.internal.functions' version='0.0.0'/>
+      <provided namespace='java.package' name='org.eclipse.emf.js4emf.swt' version='0.0.0'/>
+      <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+    </provides>
+    <requires size='6'>
+      <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.mozilla.javascript' range='1.7.2'/>
+      <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='2.6.0'/>
+      <required namespace='osgi.bundle' name='org.eclipse.emf.ecore.xmi' range='2.5.0'/>
+      <required namespace='osgi.bundle' name='org.eclipse.emf.edit' range='2.6.0'/>
+      <required namespace='osgi.bundle' name='org.eclipse.swt' range='3.6.0'/>
+    </requires>
+    <artifacts size='1'>
+      <artifact classifier='osgi.bundle' id='org.eclipse.emf.js4emf.core' version='0.9.0.201102181520'/>
+    </artifacts>
+    <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+    <touchpointData size='1'>
+      <instructions size='1'>
+        <instruction key='manifest'>
+          Bundle-Name: Javascript for EMF (Incubation)&#xA;Bundle-Version: 0.9.0.201102181520&#xA;Bundle-Activator: org.eclipse.emf.js4emf.Activator&#xA;Created-By: Apache Maven&#xA;Archiver-Version: Plexus Archiver&#xA;Require-Bundle: org.eclipse.core.runtime,org.mozilla.javascript;bundle-version=&quot;1.7.2&quot;,org.eclipse.emf.ecore;bundle-version=&quot;2.6.0&quot;,org.eclipse.emf.ecore.xmi;bundle-version=&quot;2.5.0&quot;,org.eclipse.emf.edit;bundle-version=&quot;2.6.0&quot;,org.eclipse.swt;bundle-version=&quot;3.6.0&quot;&#xA;Export-Package: org.eclipse.emf.js4emf,org.eclipse.emf.js4emf.ecore,org.eclipse.emf.js4emf.ecore.internal;x-friends:=&quot;org.eclipse.emf.js4emf.tests&quot;,org.eclipse.emf.js4emf.ecore.internal.delegates;x-friends:=&quot;org.eclipse.emf.js4emf.tests&quot;,org.eclipse.emf.js4emf.ecore.internal.featurevalueprovider;x-friends:=&quot;org.eclipse.emf.js4emf.tests&quot;,org.eclipse.emf.js4emf.ecore.internal.functions;x-internal=&quot;true&quot;,org.eclipse.emf.js4emf.swt;x-internal=&quot;true&quot;&#xA;Bundle-SymbolicName: org.eclipse.emf.js4emf.core;singleton:=true&#xA;Manifest-Version: 1.0&#xA;Build-Jdk: 1.5.0_26&#xA;Built-By: hal&#xA;Bundle-ActivationPolicy: lazy&#xA;Bundle-ManifestVersion: 2&#xA;Bundle-RequiredExecutionEnvironment: J2SE-1.5&#xA;
+        </instruction>
+      </instructions>
+    </touchpointData>
+  </unit>
+</units>
