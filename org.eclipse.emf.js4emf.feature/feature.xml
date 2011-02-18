@@ -46,13 +46,6 @@ otherwise customize EMF-based tools using scripts.
    </requires>
 
    <plugin
-         id="org.eclipse.emf.js4emf"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.emf.js4emf.tests"
          download-size="0"
          install-size="0"
@@ -61,6 +54,13 @@ otherwise customize EMF-based tools using scripts.
 
    <plugin
          id="org.eclipse.emf.js4emf.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.js4emf.core"
          download-size="0"
          install-size="0"
          version="0.0.0"

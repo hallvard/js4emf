@@ -7,7 +7,7 @@ Require-Bundle: org.mozilla.javascript;bundle-version="1.7.2",
  org.eclipse.emf.ecore.xmi,
  org.eclipse.emf.ecore.change.edit;bundle-version="2.4.0",
  org.junit;bundle-version="3.8.2",
- org.eclipse.emf.js4emf;bundle-version="0.9.0"
+ org.eclipse.emf.js4emf.core;bundle-version="0.9.0"
 Eclipse-LazyStart: false
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
