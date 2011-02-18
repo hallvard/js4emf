@@ -34,18 +34,36 @@
   <version>0.9.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   
-  <repositories>
-   <repository>
-     <id>helios</id>
-     <layout>p2</layout>
-     <url>http://download.eclipse.org/releases/helios</url>
-   </repository>
-   <repository>
-     <id>orbits</id>
-     <layout>p2</layout>
-     <url>http://download.eclipse.org/tools/orbit/downloads/drops/S20101204061544/repository/</url>
-   </repository>
-  </repositories>
+  <profiles>
+    <profile>
+      <id>platform-helios</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+        <property>
+          <name>platform-version-name</name>
+          <value>helios</value>
+        </property>
+      </activation>
+      <properties>
+        <eclipse-site>http://download.eclipse.org/releases/helios</eclipse-site>
+        <platform-version>[3.6,3.7)</platform-version>
+      </properties>
+    </profile>
+    <profile>
+      <id>platform-indigo</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+        <property>
+          <name>platform-version-name</name>
+          <value>indigo</value>
+        </property>
+      </activation>
+      <properties>
+        <eclipse-site>http://download.eclipse.org/releases/indigo</eclipse-site>
+        <platform-version>[3.7,3.8)</platform-version>
+        </properties>
+    </profile>
+  </profiles>
 
   <modules>
     <module>org.eclipse.emf.js4emf.core</module>
@@ -54,6 +72,35 @@
     <module>org.eclipse.emf.js4emf.feature</module>
     <module>org.eclipse.emf.js4emf.updatesite</module>
   </modules>
+
+  <repositories>
+   <repository>
+     <id>eclipse-platform</id>
+     <layout>p2</layout>
+     <url>${eclipse-site}</url>
+   </repository>
+   <repository>
+     <id>orbits</id>
+     <layout>p2</layout>
+     <url>http://download.eclipse.org/tools/orbit/downloads/drops/S20101204061544/repository/</url>
+   </repository>
+  </repositories>
+
+  <pluginRepositories>
+  <!-- 
+   <pluginRepository>
+     <snapshots>
+       <enabled>true</enabled>
+       <updatePolicy>never</updatePolicy>
+       <checksumPolicy>fail</checksumPolicy>
+     </snapshots>
+     <id>codehausSnapshots</id>
+     <name>Mojo Codehaus Snapshots</name>
+     <url>http://snapshots.repository.codehaus.org/org/codehaus/mojo</url>
+     <layout>default</layout>
+   </pluginRepository>
+   -->
+  </pluginRepositories>
 
   <build>
     <plugins>
@@ -74,5 +121,27 @@
         </configuration>
       </plugin>
     </plugins>
+    <pluginManagement>
+      <plugins>
+      <!-- 
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>findbugs-maven-plugin</artifactId>
+          <version>2.3.2-SNAPSHOT</version>
+          <configuration>
+            <findbugsXmlOutput>true</findbugsXmlOutput>
+            <failOnError>false</failOnError>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>check</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+       -->
+      </plugins>
+    </pluginManagement>
   </build>
 </project>
